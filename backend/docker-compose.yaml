@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  shipDB:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: "shipDB"
+      POSTGRES_PASSWORD: "SHIP_cefetMG"
+      POSTGRES_USER: "admin"
+
+    ports:
+      - '25432:5432'
+    
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./source/domain/system/database/populate.sql:/scripts/populate.sql
+
+volumes:
+  pgdata:
