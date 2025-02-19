@@ -20,7 +20,7 @@ export default function Home() {
                 <div className="h-16 sm:h-[10%] flex items-center p-2 sm:p-0">
                     <HamburguerMenu />
                     <div className="basis-2/3 bg-[rgba(10,160,20,0.7)] rounded-lg min-h-[1.5rem] sm:min-h-[1rem] w-[40%] ml-2 sm:ml-[5%] flex justify-center items-center">
-                        <p className="text-cyan-50 whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(0.75rem,2vw,1rem)]">ProstgreSQL</p>
+                        <p className="text-cyan-50 whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(0.75rem,2vw,1rem)]">PostgreSQL</p>
                     </div>
                 </div>
 
