@@ -13,7 +13,7 @@ services:
     
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./source/domain/system/database/populate.sql:/scripts/populate.sql
+      - ./backend/source/domain/system/database/populate.sql:/scripts/populate.sql
 
 volumes:
   pgdata:
