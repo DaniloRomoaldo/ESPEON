@@ -27,8 +27,9 @@ export const addPathToBody = (req, res, next) => {
     if (req.file) {
       req.body.db_path = path.join(
         path.resolve("./domain/system/exercise_list/db_exercise_dumps"),
-        req.file.originalname
-      );
+        req.file.filename
+      ),
+      req.query.db_name = req.file.filename;
     }
       next();
   };

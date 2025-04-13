@@ -72,7 +72,9 @@ app.post("/createUserPermission", authMiddleware , userPermissionController.crea
 const upload = multer({storage: storage})
 
 app.post("/exerciseListDownload", upload.single('file'), addPathToBody , exercise_listController.createExercise_list);
-
+app.get("/exerciseLists", exercise_listController.findAll) // lembrar de add o middleware de autenticação
+app.get("/exerciseList/:id", exercise_listController.findById)
+app.get("/exerciseList", exercise_listController.findByName)
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------
 

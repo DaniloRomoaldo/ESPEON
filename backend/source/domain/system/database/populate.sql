@@ -33,10 +33,9 @@ CREATE TABLE exercise_list (
 CREATE TABLE exercise (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     exercise_list_id uuid,
-    name VARCHAR(255) UNIQUE not NULL,
+    name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     solution_query TEXT NOT NULL,
     created_at TIMESTAMP,
     CONSTRAINT fk_exercise_list FOREIGN KEY (exercise_list_id) REFERENCES exercise_list(id)
 );
-

@@ -1,15 +1,35 @@
 import { databaseSHIP } from "../../../kenx/knexfile.js";
 
 export const findAll = async() => {
-    return databaseSHIP.select().from('exercise_list')
+    return databaseSHIP.select(
+        'name',
+        'db_name',
+        'email',
+        'created_at'
+    )
+    .from('exercise_list')
+    .join('users', 'exercise_list.created_by', 'users.id')
 }
 
 export const findById = async (id) => {
-    return databaseSHIP.select().from('exercise_list').where({id:id})
+    return databaseSHIP.select(
+        'name',
+        'db_name',
+        'db_path',
+        'created_by',
+        'created_at'
+    ).from('exercise_list')
+    .where({id:id})
 }
 
 export const findByName = async (name) => {
-    return databaseSHIP.select().from('exercise_list').where({name:name})
+    return databaseSHIP.select(
+        'name',
+        'db_name',
+        'db_path',
+        'created_by',
+        'created_at'
+    ).from('exercise_list').where({name:name})
 }
 
 export const create = async (list) => {
