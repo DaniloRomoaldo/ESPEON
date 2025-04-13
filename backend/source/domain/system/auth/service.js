@@ -22,5 +22,8 @@ export const gerar_token = async (body) => {
         {expiresIn: '10h'}
     )
 
-    return token;
+    return {
+        token,
+        userId: user.id
+    };
 }

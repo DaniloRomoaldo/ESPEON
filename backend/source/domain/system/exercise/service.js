@@ -19,9 +19,17 @@ export const findByName = async (query) => {
     return exercise
 }
 
-//POST criar criar exercícios
+//POST criar  exercícios
 export const create = async (body) => {
 
+    const exercise ={
+        exercise_list_id: body.exercise_list_id, 
+        name: body.name, 
+        description: body.description, 
+        solution_query: body.solution_query
+    }
+
+    await repositoryExercise.create(exercise);
 }
 
 

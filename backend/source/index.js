@@ -9,6 +9,11 @@ import * as usersController from './domain/system/users/controller.js'
 import * as permissionController from './domain/system/permission/controller.js'
 import * as userPermissionController from './domain/system/user_permission/controller.js'
 
+//--------------------imports do módulo de exercĩcios -----------------------
+import multer from 'multer';
+import { storage, addPathToBody } from './multerConfig.js';
+import * as exercise_listController from "./domain/system/exercise_list/controller.js"
+
 //------------------- imports do postgres -----------------------------------
 import * as schemasController from "./domain/postgres/schemas/controller.js"
 import * as tablesContoller from "./domain/postgres/tables/controller.js"
@@ -30,6 +35,7 @@ const port = 3000;
 
 app.use(cors())
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 //-------------------------------- Rota de autenticação ---------------------------------------------------------------
@@ -39,7 +45,7 @@ app.post("/token", authController.gerar_token);
 
 //--------------------------------- Rotas de uso para o banco de dados S.H.I.P -----------------------------------------
 
-app.get("/users", authMiddleware ,usersController.findAll);
+app.get("/users",authMiddleware , usersController.findAll);
 app.get("/user/:id", authMiddleware , usersController.findOne);
 app.get("/userEmail", authMiddleware , usersController.findByEmail);
 app.post("/user", authMiddleware , usersController.createUser);
@@ -62,7 +68,10 @@ app.get("/usersByPermission", authMiddleware , userPermissionController.findUser
 app.post("/createUserPermission", authMiddleware , userPermissionController.createPermissionByUser);
 
 
+//--------------------------------- Rotas do módulo de exercícios SQL -------------------------------------------------------
+const upload = multer({storage: storage})
 
+app.post("/exerciseListDownload", upload.single('file'), addPathToBody , exercise_listController.createExercise_list);
 
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------

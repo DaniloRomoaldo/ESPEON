@@ -1,4 +1,4 @@
-import { databaseSHIP } from "../../../kenx/knexfile";
+import { databaseSHIP } from "../../../kenx/knexfile.js";
 
 export const findAll = async() => {
     return databaseSHIP.select().from('exercise_list')
@@ -13,13 +13,15 @@ export const findByName = async (name) => {
 }
 
 export const create = async (list) => {
-    await databaseSHIP('exercise_list').insert({
+   const [inserted] = await databaseSHIP('exercise_list').insert({
         name: list.name,
         db_name: list.db_name,
         db_path: list.db_path,
         created_by: list.created_by,
-        created_at: new Date()
-    })
+        created_at: list.created_at
+    }).returning('id');
+
+    return inserted.id;
 }
 
 export const update = async (list) => {

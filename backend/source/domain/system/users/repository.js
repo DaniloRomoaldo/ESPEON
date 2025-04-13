@@ -3,7 +3,7 @@ import { databaseSHIP } from "../../../kenx/knexfile.js";
 
 // Métodos GET
 export const findAll = async () =>{
-    return databaseSHIP.select('email').from('users')
+    return databaseSHIP.select('id','email').from('users')
 }
 
 export const getOne = async (id) => {
