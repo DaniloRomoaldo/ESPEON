@@ -22,7 +22,8 @@ export class ErrorHandler {
 
     static showError(error) {
         if(error instanceof DatabaseError){
-            this.errorObj.message = "Erro aao acessar o banco de dados!"; 
+            // this.errorObj.message = "Erro ao acessar o banco de dados!"; 
+            this.errorObj.message = error.message; 
             this.errorObj.status = 500;
             return this.errorObj;
         }else{

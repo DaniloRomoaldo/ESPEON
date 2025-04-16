@@ -1,6 +1,7 @@
 import * as repositoryExercise_list from './repository.js'
 import * as repositoryExercise from '../exercise/repository.js'
 import * as repositoryUsers from '../users/repository.js'
+import { databaseSHIP } from '../../../kenx/knexfile.js';
 
 // GET todas as listas
 export const findAll = async () => {
@@ -9,7 +10,13 @@ export const findAll = async () => {
 
 // GET por id
 export const findById = async (id) => {
-    return repositoryExercise_list.findById(id);
+    const list = await repositoryExercise_list.findById(id);
+    const exercices = await repositoryExercise.findByExerciceList(id)
+
+    return{
+        list,
+        'exercises':exercices
+    }
 }
 
 // GET por nome
@@ -71,3 +78,15 @@ export const create = async (body, query) => {
 
 
 // PUT & PATH atualizar lista
+export const updateExerciseList = async (body,query) => {
+    
+}
+
+
+// DELETE
+
+export const deleteExerciseList = async (list_id) => {
+
+
+    await repositoryExercise_list.destroy(list_id)
+}

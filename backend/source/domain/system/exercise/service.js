@@ -6,8 +6,8 @@ export const findAll = async () => {
 }
 
 //GET por id
-export const findOne = async (id) => {
-    return repositoryExercise.findByOne(id);
+export const findById = async (id) => {
+    return repositoryExercise.findById(id);
 }
 
 //GET por nome

@@ -2,6 +2,7 @@ import { databaseSHIP } from "../../../kenx/knexfile.js";
 
 export const findAll = async() => {
     return databaseSHIP.select(
+        'exercise_list.id', 
         'name',
         'db_name',
         'email',
@@ -24,6 +25,7 @@ export const findById = async (id) => {
 
 export const findByName = async (name) => {
     return databaseSHIP.select(
+        'id',
         'name',
         'db_name',
         'db_path',
@@ -56,7 +58,7 @@ export const update = async (list) => {
 
 export const destroy = async(id) => {
     await databaseSHIP.transaction( async (trx) => {
-        await trx('exercise').where({exercise_list_id:id})
+        await trx('exercise').where({exercise_list_id:id}).del()
 
         await trx('exercise_list').where({id:id}).del()
     })
