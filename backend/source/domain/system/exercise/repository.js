@@ -67,6 +67,7 @@ export const create = async (exercise) => {
 }
 
 export const update = async (id, exercise) => {
+
     await databaseSHIP('exercise').where({id:id}).update({
         name: exercise.name,
         description: exercise.description,

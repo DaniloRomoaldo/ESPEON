@@ -2,6 +2,8 @@ import * as repositoryExercise_list from './repository.js'
 import * as repositoryExercise from '../exercise/repository.js'
 import * as repositoryUsers from '../users/repository.js'
 import { databaseSHIP } from '../../../kenx/knexfile.js';
+import path from 'path';
+import fs from 'fs/promises';
 
 // GET todas as listas
 export const findAll = async () => {
@@ -87,6 +89,14 @@ export const updateExerciseList = async (body,query) => {
 
 export const deleteExerciseList = async (list_id) => {
 
-
-    await repositoryExercise_list.destroy(list_id)
+    const exercices_list = await repositoryExercise_list.findById(list_id);
+    if(!exercices_list[0])
+        throw new Error("Lista de exercícos não encontrada")
+    
+    else(exercices_list[0].db_path && typeof exercices_list[0].db_path === 'string')    
+        const file_path = path.resolve(exercices_list[0].db_path);
+        await fs.unlink(file_path);
+       
+        await repositoryExercise_list.destroy(list_id)
+     
 }

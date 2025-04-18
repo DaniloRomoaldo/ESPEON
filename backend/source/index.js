@@ -13,7 +13,7 @@ import * as userPermissionController from './domain/system/user_permission/contr
 import multer from 'multer';
 import { storage, addPathToBody } from './multerConfig.js';
 import * as exercise_listController from "./domain/system/exercise_list/controller.js"
-import * as exercise from "./domain/system/exercise/controller.js"
+import * as exerciseController from "./domain/system/exercise/controller.js"
 
 //------------------- imports do postgres -----------------------------------
 import * as schemasController from "./domain/postgres/schemas/controller.js"
@@ -72,11 +72,16 @@ app.post("/createUserPermission", authMiddleware , userPermissionController.crea
 //--------------------------------- Rotas do módulo de exercícios SQL -------------------------------------------------------
 const upload = multer({storage: storage})
 
-app.get("/exercises", exercise.findAll)
-app.get("/exercise/:id", exercise.findById)
-app.get("/exercise", exercise.findByName)
+app.get("/exercises", exerciseController.findAll)
+app.get("/exercise/:id", exerciseController.findById)
+app.get("/exercise", exerciseController.findByName)
+app.post("/exercise", exerciseController.create)
+app.patch("/exercise", exerciseController.update)
+app.delete("/exercise", exerciseController.deleteExercise)
 
 
+
+// lista de exercício
 app.post("/exerciseListDownload", upload.single('file'), addPathToBody , exercise_listController.createExercise_list);
 app.get("/exerciseLists", exercise_listController.findAll) // lembrar de add o middleware de autenticação
 app.get("/exerciseList/:id", exercise_listController.findById)
