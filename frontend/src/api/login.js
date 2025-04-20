@@ -2,6 +2,7 @@ import { api } from "../lib/axios";
 import Cookies from "js-cookie"
 
 export async function login({email, password}) {
+    
     try {
         const response = await api.post('token', {email, password})
         
