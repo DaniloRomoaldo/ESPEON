@@ -31,3 +31,13 @@ export default async function registerExerciseList(body, query, file) {
 }
 
 
+export async function listAllExerciceLists() {
+
+    try {
+        const response = await api.get('exerciseLists')
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message);
+    }
+    
+}

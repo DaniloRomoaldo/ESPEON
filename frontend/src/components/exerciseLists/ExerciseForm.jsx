@@ -44,6 +44,7 @@ export default function ExerciseForm ({index, onChange}){
                 <textarea 
                     id="description" 
                     rows="4" 
+                    required
                     className="block p-2.5 mt-2 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-[rgba(217,217,217,0.1)] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
@@ -53,6 +54,7 @@ export default function ExerciseForm ({index, onChange}){
                 <textarea 
                     id="gabarito" 
                     rows="4" 
+                    required
                     className="block p-2.5 mt-2 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-[rgba(217,217,217,0.1)] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={(e) => setSolutionQuery(e.target.value)}
                     ></textarea>
