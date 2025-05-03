@@ -5,6 +5,7 @@ import Register from "../pages/register"
 import ProtectedRoutes from "./protected/protectedRoutes"
 import ExerciseLists from "../pages/registerExerciseLists"
 import ListExerciseLists from "../pages/exerciseLists"
+import ViewExerciseLists from "../pages/viewExerciseLists"
 
 export default function Router (){
     return(
@@ -15,6 +16,7 @@ export default function Router (){
             <Route path="/register" element={<Register />} />
             <Route path="/registerExerciseLists" element={<ExerciseLists />} />
             <Route path="/listExerciseLists" element={<ListExerciseLists />} />
+            <Route path="/viewListExerciseLists" element={<ViewExerciseLists />} />
             <Route
                 path="/home"
                 element={

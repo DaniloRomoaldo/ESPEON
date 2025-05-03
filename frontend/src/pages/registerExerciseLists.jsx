@@ -57,11 +57,11 @@ export default function ExerciseLists() {
         {alertMessage && (
             <Alert 
                 message={alertMessage}
-                onClose={() => setAlertMessage("")} // 👈 Zera quando clicar!
+                onClose={() => setAlertMessage("")}
             />
             )}
         
-        <form key={resetKey} className="w-[70%] h-[95%] bg-[#202024] flex flex-col">
+        <form key={resetKey} className="w-[60%] h-[95%] bg-[#202024] flex flex-col">
   
           {/* Parte fixa*/}
           <div className="w-full px-[3%] py-4">
