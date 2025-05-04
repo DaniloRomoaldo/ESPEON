@@ -1,8 +1,9 @@
 import * as repositoryExercise from './repository.js';
 
 //GET todos
-export const findAll = async () => {
-    return repositoryExercise.findAll();
+export const findAll = async (query) => {
+    const {name_list} = query
+    return repositoryExercise.findAll(name_list);
 }
 
 //GET por id

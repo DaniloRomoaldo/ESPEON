@@ -1,6 +1,6 @@
 import { databaseSHIP } from "../../../kenx/knexfile.js";
 
-export const findAll = async () => {
+export const findAll = async (name_list) => {
     return databaseSHIP.select(
         'exercise.id',
         'exercise.exercise_list_id',
@@ -12,6 +12,7 @@ export const findAll = async () => {
     )
     .from('exercise')
     .join('exercise_list', 'exercise_list.id', 'exercise.exercise_list_id')
+    .where({'exercise_list.name':name_list})
 }
 
 export const findById = async (id) => {

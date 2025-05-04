@@ -72,7 +72,7 @@ app.post("/createUserPermission", authMiddleware , userPermissionController.crea
 //--------------------------------- Rotas do módulo de exercícios SQL -------------------------------------------------------
 const upload = multer({storage: storage})
 
-app.get("/exercises", exerciseController.findAll)
+app.get("/exercises", exerciseController.findAllByList)
 app.get("/exercise/:id", exerciseController.findById)
 app.get("/exercise", exerciseController.findByName)
 app.post("/exercise", exerciseController.create)

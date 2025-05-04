@@ -37,6 +37,7 @@ export const findByName = async (req, res) => {
 
 // POST criar lista de exercícios
 export const createExercise_list = async (req, res) => {
+
     try {
         const numExercices = await serviceExercise_list.create(req.body, req.query)
         res.status(200).json(`Foram criados exercícios ${numExercices}`);

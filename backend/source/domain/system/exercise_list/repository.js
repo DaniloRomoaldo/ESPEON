@@ -3,13 +3,18 @@ import { databaseSHIP } from "../../../kenx/knexfile.js";
 export const findAll = async() => {
     return databaseSHIP.select(
         'exercise_list.id', 
-        'name',
-        'db_name',
-        'email',
-        'created_at'
+        'exercise_list.name',
+        'exercise_list.db_name',
+        'users.email',
+        'exercise_list.created_at',
+        databaseSHIP.raw('count(exercise.id) as qnt_exercicios')
     )
     .from('exercise_list')
     .join('users', 'exercise_list.created_by', 'users.id')
+    .join('exercise', 'exercise.exercise_list_id', 'exercise_list.id')
+    .groupBy('exercise_list.id', 'users.email')
+    .orderBy('exercise_list.created_at', 'desc')
+    .distinct()
 }
 
 export const findById = async (id) => {

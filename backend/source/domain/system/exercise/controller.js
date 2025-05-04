@@ -2,9 +2,9 @@ import * as serviceExercise from './service.js'
 import { ErrorHandler } from '../util/ErrorHandler.js'
 
 // GET todos os exercícios
-export const findAll = async (req, res) => {
+export const findAllByList = async (req, res) => {
     try {
-        const exercise = await serviceExercise.findAll()
+        const exercise = await serviceExercise.findAll(req.query)
         res.status(200).json(exercise)
     } catch (error) {
         res.status(400).json({error: ErrorHandler.showError(error)})
