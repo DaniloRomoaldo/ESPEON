@@ -4,8 +4,8 @@ import Login from "../pages/login"
 import Register from "../pages/register"
 import ProtectedRoutes from "./protected/protectedRoutes"
 import ExerciseLists from "../pages/registerExerciseLists"
-import ListExerciseLists from "../pages/exerciseLists"
 import ViewExerciseLists from "../pages/viewExerciseLists"
+import ViewExercises from "../pages/viewExercises"
 
 export default function Router (){
     return(
@@ -15,8 +15,8 @@ export default function Router (){
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/registerExerciseLists" element={<ExerciseLists />} />
-            <Route path="/listExerciseLists" element={<ListExerciseLists />} />
             <Route path="/viewListExerciseLists" element={<ViewExerciseLists />} />
+            <Route path="/exercises" element={<ViewExercises />} />
             <Route
                 path="/home"
                 element={

@@ -1,4 +1,4 @@
-import DataTable from "../components/DataTable"
+import DatatableExerciseLists from "../layouts/DataTableExerciseLists"
 
 export default function ViewExerciseLists(){
     return(
@@ -6,8 +6,8 @@ export default function ViewExerciseLists(){
             
             <p className="text-gray-900 text-6xl dark:text-white">Lista de Exercícios</p>
 
-                <div className="h-[90%] w-[70%] mt-[5%]">
-                    <DataTable />
+                <div className="h-[90%] w-[70%] mt-[5%] overflow-y-auto">
+                    <DatatableExerciseLists />
                 </div>
                 
         </div>

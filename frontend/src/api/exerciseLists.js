@@ -41,3 +41,13 @@ export async function listAllExerciceLists() {
     }
     
 }
+
+export async function deleteExerciseList(id){
+    try {
+        const response = await api.delete(`exerciseList/${id}`);
+
+        return response;
+    } catch (error) {
+        throw new Error(error.response.data.message)
+    }
+}
