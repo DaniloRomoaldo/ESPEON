@@ -13,6 +13,7 @@ export const findAll = async (name_list) => {
     .from('exercise')
     .join('exercise_list', 'exercise_list.id', 'exercise.exercise_list_id')
     .where({'exercise_list.name':name_list})
+    .orderBy('exercise.created_at', 'desc')
 }
 
 export const findById = async (id) => {
