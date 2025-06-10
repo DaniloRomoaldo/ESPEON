@@ -1,14 +1,28 @@
 import * as rawRepository from './repository.js'
 
 export const rawQuery = async (body) => {
+
     const {rawQuery} = body;
-    //try {
-        const result = await rawRepository.rawQuery(rawQuery);
 
-        return result;
+    const result = await rawRepository.rawQuery(rawQuery);
+    return result;
+}
 
-    //} catch (error) {
-        
-     //   throw new Error(`Service Error: ${error.message}`)
-    //}
+
+export const rawQueryWithPID = async (body) => {
+
+
+    const {rawQuery} = body;
+
+    const {pid, resultPromise } = await  rawRepository.rawQueryWithPID(rawQuery)
+
+    // trabalhando o retorno com promise
+    return{
+        pid,
+        resultPromise
+    }
+}
+
+export const cancelQuery = async (pid) => {
+    await rawRepository.cancelQueryByPID(pid);
 }

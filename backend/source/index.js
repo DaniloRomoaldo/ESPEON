@@ -29,7 +29,8 @@ import * as enumsController from './domain/postgres/enums/controller.js'
 
 import cors from 'cors';
 
-
+// importação do webSocket
+import './domain/postgres/raw/webSocketServer.js'
 
 const app = express();
 const port = 3000;
@@ -107,6 +108,7 @@ app.get("/views", authMiddleware , viewsController.getViews);
 app.get("/viewColumns", authMiddleware ,viewsColumnsController.getViewColumns);
 
 // rota para enviar a raw query a ser rodada no banco
+// essa rota não vai mais ser utilizada
 app.post("/rawQuery",  authMiddleware ,rawQueryController.rawQuery);
 
 // rota para coletar as funções de um schema

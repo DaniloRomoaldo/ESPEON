@@ -12,4 +12,4 @@ export const rawQuery = async (req,res) => {
     }
 }
 
-//ErrorHandler.showError(error)
+//ErrorHandler.showError(error) 
