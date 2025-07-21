@@ -10,10 +10,6 @@ export function connectQueryWebSocket(onEvent){
         onEvent(msg, socket)
     });
 
-    // socket.addEventListener('error', (err) => {
-    //     console.error('WebSocket error:', err);
-    // });
-
     socket.addEventListener('close', (e) => {
         console.log('WebSocket desconectado:', e.code, e.reason);
     });

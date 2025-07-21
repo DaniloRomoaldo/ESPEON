@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  lab_db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_USER: "${DB_USER}"
+    
+    ports:
+      - "${DB_PORT}:5432"
+    
+    volumes:
+      - lab_data:/var/lib/postresql/data
+      - ${DUMP_PATH}:/docker-entrypoint-initdb.d/init.sql
+    restart: on-failure
+  
+volumes:
+  lab_data:
+    driver: local

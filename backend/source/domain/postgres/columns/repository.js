@@ -13,5 +13,3 @@ export const getTables = async (schema_name, table_name) => {
                 .andWhere('pg_class.relkind', '=', 'r')
 } 
 
-
-//console.log(getTables('public', 'table_1'))

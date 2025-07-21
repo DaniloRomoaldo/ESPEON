@@ -15,6 +15,9 @@ import { storage, addPathToBody } from './multerConfig.js';
 import * as exercise_listController from "./domain/system/exercise_list/controller.js"
 import * as exerciseController from "./domain/system/exercise/controller.js"
 
+//--------------------imports do módulo de laboratório de atividades --------
+import * as labAtividadesController from "./domain/laboratorioDeAtividades/lab/controller.js"
+
 //------------------- imports do postgres -----------------------------------
 import * as schemasController from "./domain/postgres/schemas/controller.js"
 import * as tablesContoller from "./domain/postgres/tables/controller.js"
@@ -89,6 +92,12 @@ app.get("/exerciseList/:id", exercise_listController.findById)
 app.get("/exerciseList", exercise_listController.findByName)
 
 app.delete("/exerciseList/:id", exercise_listController.destroyExerciseList)
+
+//--------------------------------- Rotas do módulo do laboratório de atividades --------------------------------------------
+
+app.post("/startLabDeAtividades", labAtividadesController.startLab)
+app.post("/stopLabDeAtividades", labAtividadesController.stopLab)
+
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------
 
