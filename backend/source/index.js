@@ -4,6 +4,9 @@ import express from 'express';
 import * as authController from './domain/system/auth/controller.js'
 import authMiddleware from './domain/system/middlewares/auth.js';
 
+//------------------- imports contexto do bando de dados ---------------------
+import { contextMiddleware } from './domain/system/middlewares/contextRequest.js';
+
 //------------------- improts do S.H.I.P  -----------------------------------
 import * as usersController from './domain/system/users/controller.js'
 import * as permissionController from './domain/system/permission/controller.js'
@@ -41,6 +44,9 @@ const port = 3000;
 app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// middleware para verificar qual banco de dados usr
+app.use(contextMiddleware)
 
 
 //-------------------------------- Rota de autenticação ---------------------------------------------------------------
@@ -105,7 +111,7 @@ app.post("/stopLabDeAtividades", labAtividadesController.stopLab)
 app.get("/schemas", authMiddleware , schemasController.getSchemas);
 
 // rota para coletar todas as tabelas de um shcema específico
-app.get("/tables", authMiddleware , tablesContoller.getTables);
+app.get("/tables" , authMiddleware , tablesContoller.getTables);
 
 // rota para coletar todas as colunas de uma tabela em um schema específico
 app.get("/TableColumns", authMiddleware , columnsController.getColumns);

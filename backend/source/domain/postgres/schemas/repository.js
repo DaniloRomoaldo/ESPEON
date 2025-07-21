@@ -1,7 +1,8 @@
-import { database } from "../../../kenx/knexfile.js"
+import { getDatabase } from "../../../kenx/knexfile.js";
 
 export const getSchemas = async () => {
 
+   const database = getDatabase();
 
    return database.withSchema('information_schema')
                 .from('schemata')

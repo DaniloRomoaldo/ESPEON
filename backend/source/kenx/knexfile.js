@@ -1,7 +1,8 @@
 import Knex from 'knex';
 import 'dotenv/config';
+import { getContext } from '../domain/system/util/requestContext.js';
 
-
+// ---------------------- variáveis de ambinete --------------------------------
 const {
   db_host,
   db_port,
@@ -15,19 +16,7 @@ const {
   MAIN_db_password,
 } = process.env;
 
-
-const config = {
-  development: {
-    client: 'pg',
-    connection: {
-      host: db_host,
-      port: parseInt(db_port),
-      database: db_database,
-      user: db_user,
-      password: db_password
-    }
-  }
-}
+// ---------------------- conexão banco de dados do ESPEON --------------------------------
 
 const config_Main = {
   producer: {
@@ -42,8 +31,34 @@ const config_Main = {
   }
 }
 
-//console.log(config)
-
-export const database = Knex(config['development']);
 export const databaseSHIP = Knex(config_Main['producer']);
-export default {config, config_Main};
+
+
+
+// ---------------------- conexão banco de dados do SandBox --------------------------------
+
+const sandboxConnection = Knex({
+  client: 'pg',
+  connection: {
+    host: db_host,
+    port: parseInt(db_port),
+    database: db_database,
+    user: db_user,
+    password: db_password
+  }
+});
+
+
+export function getDatabase(){
+  const context = getContext();
+
+  if (context && context.db){
+    return context.db;
+  }
+
+  return sandboxConnection;
+
+}
+
+export default { config_Main};
+

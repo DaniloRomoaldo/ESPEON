@@ -1,6 +1,7 @@
-import { database } from "../../../kenx/knexfile.js";
+import { getDatabase } from "../../../kenx/knexfile.js";
 
 export const getViews = async (schema_name) => {
+    const database = getDatabase();
 
     return database.withSchema('pg_catalog')
                 .select(database.ref('relname').as('view_name'))

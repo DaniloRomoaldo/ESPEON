@@ -1,6 +1,8 @@
-import { database } from "../../../kenx/knexfile.js";
+import { getDatabase } from "../../../kenx/knexfile.js";
 
 export const getFunctions = async (schema_name) => {
+    
+    const database = getDatabase();
 
     return database.withSchema('pg_catalog')
                     .select(database.ref('proname').as('function_name'))
@@ -12,6 +14,9 @@ export const getFunctions = async (schema_name) => {
 }
 
 export const getFunctionCode = async (schema_name, function_name) => {
+
+    const database = getDatabase();
+
     return database.withSchema('pg_catalog')
                     .select(database.raw('pg_get_functiondef(pg_proc.oid) AS function_structure'))
                     .from('pg_proc')

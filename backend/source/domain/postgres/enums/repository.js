@@ -1,6 +1,8 @@
-import { database } from "../../../kenx/knexfile.js";
+import { getDatabase } from "../../../kenx/knexfile.js";
 
 export const getEnums = async (schema_name) => {
+
+    const database = getDatabase();
 
     return database.withSchema('pg_catalog')
                     .distinct(database.ref('typname').as('enum_name'))
@@ -13,6 +15,8 @@ export const getEnums = async (schema_name) => {
 
 
 export const getEnumValues = async (schema_name, enum_name) => {
+
+    const database = getDatabase();
 
     return database.withSchema('pg_catalog')
                     .select(database.ref('enumlabel').as('enum_values'))

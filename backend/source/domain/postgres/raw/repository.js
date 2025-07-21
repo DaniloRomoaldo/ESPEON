@@ -1,6 +1,8 @@
-import { database } from "../../../kenx/knexfile.js";
+import { getDatabase } from "../../../kenx/knexfile.js";
 
 export const rawQuery = async (rawQuery) => {
+
+        const database = getDatabase();
     
         const result = await database.raw(rawQuery);
         return result;
@@ -10,6 +12,7 @@ export const rawQuery = async (rawQuery) => {
 
 export const rawQueryWithPID = async (rawQuery) => {
 
+        const database = getDatabase();
 
         // trabalhando com uma transaction para pegar o pid do processo e devolver a query como promise de resposta
         const transaction = await database.transaction();
@@ -35,6 +38,9 @@ export const rawQueryWithPID = async (rawQuery) => {
 }
 
 export const cancelQueryByPID = async (pid) => {
+
+        const database = getDatabase();
+
         await database.raw(`SELECT pg_cancel_backend(${pid})`);
 }
 

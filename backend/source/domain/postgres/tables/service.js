@@ -1,8 +1,8 @@
-import * as tablesService from './repository.js'
+import * as tablesRepository from './repository.js'
 
 export const getTables = async (query) => {
     const {schema_name} = query;
 
 
-    return tablesService.getTables(schema_name);
+    return tablesRepository.getTables(schema_name);
 }
