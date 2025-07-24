@@ -10,7 +10,15 @@ api.interceptors.request.use((config) => {
     if (token) {
         config.headers['Authorization'] = token; // Adiciona o token no header Authorization
     }
+
+
+    const labSessionId = Cookies.get('labSessionId');
+    if (labSessionId){
+        config.headers['lab-session-id'] = labSessionId;
+    }
+
     return config;
+
 }, (error) => {
     return Promise.reject(error);
 });

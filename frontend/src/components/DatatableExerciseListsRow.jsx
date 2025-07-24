@@ -1,8 +1,15 @@
 /* eslint-disable react/prop-types */
 import { deleteExerciseList } from "../api/exerciseLists"
-
+import listAllExercices from "../api/exercises"; 
+import { startLab } from "../api/labManager";
+import Cookies from 'js-cookie'; 
+import { useNavigate } from "react-router-dom";
+import { useState } from "react"; 
 
 export default function DatatableExerciseListsRow({list_name, qnt_exercicio, id, created_at}){
+
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false); 
     
 
     function navigateTo() {
@@ -12,19 +19,59 @@ export default function DatatableExerciseListsRow({list_name, qnt_exercicio, id,
 
 
         async function handleDelete() {
+
             const isConfirmed = window.confirm(`Tem certeza que deseja deletar a lista "${list_name}"?`);
-        if (!isConfirmed) {
-            return; 
-        }
-        try {
-            await deleteExerciseList(id);
-            window.location.reload();
+            if (!isConfirmed) {
+                return; 
+            }
+            try {
+                await deleteExerciseList(id);
+                window.location.reload();
+                
             
-           
-        } catch (error) {
-            console.error('Erro ao deletar lista:', error.message);
+            } catch (error) {
+                console.error('Erro ao deletar lista:', error.message);
+            }
+
         }
-    }
+
+
+        async function startExerciseLab(){
+            const isConfirmed = window.confirm(`Deseja iniciar um laboratório para a lista de exercícios "${list_name}"?`);
+
+            if (isConfirmed){
+                setIsLoading(true);
+                try {
+                    const [labResponse, exercisesResponse] = await Promise.all([
+                        startLab(id),
+                        listAllExercices({ list_name: list_name })
+                ]);
+
+                const { labSessionId } = labResponse;
+                const exercises = exercisesResponse;
+
+                    // armazena a sessão no cookie
+                    if (labSessionId && exercises){
+                        Cookies.set('labSessionId', labSessionId, {expires: 1/12});
+
+                        // armazena os exercícios no localStorage
+                        localStorage.setItem('currentLabExercises', JSON.stringify(exercises));
+                        localStorage.setItem('currentExerciseIndex', '0'); // Inicia no primeiro exercício
+
+                        navigate('/home')
+                    }
+
+                } catch (error) {
+                    alert(`Erro ao iniciar o laboratório: ${error.message}`);
+                    Cookies.remove('labSessionId');
+                    localStorage.removeItem('currentLabExercises');
+                    localStorage.removeItem('currentExerciseIndex');
+                }finally {
+                    setIsLoading(false);
+                }
+            }
+        }
+
         return(
         
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
@@ -41,6 +88,15 @@ export default function DatatableExerciseListsRow({list_name, qnt_exercicio, id,
             </td>
             <td className="px-6 py-4">
                 <a type="button" onClick={handleDelete} className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer ">Remove</a>
+            </td>
+            <td className="px-6 py-4">
+                <a type="button" onClick={startExerciseLab} className="group font-medium text-green-600 dark:text-green-600 hover:underline cursor-pointer">
+                     {isLoading ? 'Iniciando...' : (
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="transition-all duration-200 group-hover:fill-green-600">
+                            <polygon points="5 3 24 12 5 21 5 3" />
+                        </svg>
+                     )}
+                </a>
             </td>
             </tr>
             

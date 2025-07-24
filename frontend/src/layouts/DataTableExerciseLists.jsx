@@ -32,6 +32,9 @@ export default function DataTable(){
                         <th scope="col" className="px-6 py-3">
                             Deletar
                         </th>
+                        <th scope="col" className="px-6 py-3">
+                            Lab
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

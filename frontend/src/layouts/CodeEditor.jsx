@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 //import { rawQuery } from "../api/rawQuery";
 import { connectQueryWebSocket } from "../lib/queryWebSocket";
 
-export default function CodeEditor({ setDataTable , onStartQuery, onEndQuery }) {
+export default function CodeEditor({ setDataTable, onStartQuery, onEndQuery, onContentChange }) {
     const editorRef = useRef();
     const [ws, setWs] = useState(null);
     const [pid, setPid] = useState(null);
@@ -13,6 +13,11 @@ export default function CodeEditor({ setDataTable , onStartQuery, onEndQuery }) 
     const onMount = editor => {
       editorRef.current = editor;
       editor.focus();
+
+      // eleva para a home quando o conteúdo muda
+      editor.onDidChangeModelContent(() => {
+            onContentChange(editor.getValue());
+        });
     };
   
     useEffect(() => {

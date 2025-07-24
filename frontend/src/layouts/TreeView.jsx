@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SchemaIcon from "../components/Schema";
 import ExpansionButton from "../components/ExpansionButton";
 import TableIcon from "../components/Tables";
@@ -19,6 +19,18 @@ export default function Treeview() {
     const [triggersList, setTriggersList] = useState([]);
     const [proceduresList, setProceduresList] = useState([]);
     const [enumsList, setEnumsList] = useState([]);
+
+     useEffect(() => {
+
+        // Atrasamos um pouquinho (100ms) para dar tempo ao DOM de se estabilizar completamente.
+        setTimeout(() => {
+          // Verifica se o objeto global da Preline existe antes de chamá-lo
+          if (window.HSStaticMethods) {
+              window.HSStaticMethods.autoInit();
+          }
+        }, 100);
+
+    }, []);
 
 
     const HandleGetDbElement = async (schemaName, elementName, hookName) => {

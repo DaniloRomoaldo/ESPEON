@@ -101,8 +101,8 @@ app.delete("/exerciseList/:id", exercise_listController.destroyExerciseList)
 
 //--------------------------------- Rotas do módulo do laboratório de atividades --------------------------------------------
 
-app.post("/startLabDeAtividades", labAtividadesController.startLab)
-app.post("/stopLabDeAtividades", labAtividadesController.stopLab)
+app.post("/startLabDeAtividades", authMiddleware , labAtividadesController.startLab)
+app.post("/stopLabDeAtividades", authMiddleware , labAtividadesController.stopLab)
 
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------

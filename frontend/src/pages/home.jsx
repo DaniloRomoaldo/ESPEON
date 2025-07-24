@@ -6,15 +6,24 @@ import OutputError from "../layouts/OutputError";
 import OutputSucess from "../layouts/OutputSucess";
 
 import { useState , useEffect } from "react";
+import DrawerLabAtividades from "../components/DrawerLabAtividades";
+import DrawerMenu from "../components/DrawerMenu";
 
+
+import Cookies from 'js-cookie';
 
 export default function Home() {
 
     const [dataTable, setDataTable] = useState({success: null, rows: [], fields: [] ,command: null, error: null });
-
     const [elapsed, setElapsed] = useState(0);
     const [running, setRunning] = useState(false);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+    // elevendo o estado do sourceCode (Lifting state up)
+    const [editorContent, setEditorContent] = useState('');
+
+    const labSessionId = Cookies.get('labSessionId');
+    
     function startTimer (){
         setElapsed(0)
         setRunning(true)
@@ -42,7 +51,7 @@ export default function Home() {
             <div className="h-auto sm:h-screen flex flex-col ">
                 {/* Menu Superior */}
                 <div className="h-16 sm:h-[10%] flex items-center p-2 sm:p-0">
-                    <HamburguerMenu />
+                    <HamburguerMenu onOpen={() => setIsDrawerOpen(true)}/>
                     <div className="basis-2/3 bg-[rgba(10,160,20,0.7)] rounded-lg min-h-[1.5rem] sm:min-h-[1rem] w-[40%] ml-2 sm:ml-[5%] flex justify-center items-center">
                         <p className="text-cyan-50 whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(0.75rem,2vw,1rem)]">PostgreSQL</p>
                     </div>
@@ -62,6 +71,7 @@ export default function Home() {
                     setDataTable={setDataTable}
                     onStartQuery={startTimer} // inicia o cronometro antes de enviar a requisição
                     onEndQuery={stopTimer} // finaliza o cronometro quando recebe a resposta do WS
+                    onContentChange={setEditorContent} // altera o estado do conteúdodo editor
                     />
                 </div>
 
@@ -80,6 +90,13 @@ export default function Home() {
                     )}
                 </div>
             </div>
+
+            {/*Se não existir uma sessão de laboratório, abre o menu e se existir é o Drawer de Exercícios */}
+                {labSessionId ? (
+                    <DrawerLabAtividades isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} editorContent={editorContent} />
+                ) : (
+                    <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+                )}
         </div>
     );
 }
