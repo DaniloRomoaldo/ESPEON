@@ -92,6 +92,7 @@ export default function CodeEditor({ setDataTable, onStartQuery, onEndQuery, onC
         return;
       }
       onStartQuery(); // starta o cronometro de resposta, antes de enviar a requisição a servidor, assim pega o tempo total
+      
       ws.send(JSON.stringify({ type: 'query', rawQuery: sourceCode }));
     };
 

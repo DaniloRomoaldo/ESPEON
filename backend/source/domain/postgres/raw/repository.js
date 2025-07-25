@@ -14,6 +14,7 @@ export const rawQueryWithPID = async (rawQuery) => {
 
         const database = getDatabase();
 
+
         // trabalhando com uma transaction para pegar o pid do processo e devolver a query como promise de resposta
         const transaction = await database.transaction();
         const pidResult = await transaction.raw('SELECT pg_backend_pid()');

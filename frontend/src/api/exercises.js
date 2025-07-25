@@ -19,7 +19,6 @@ export default async function listAllExercices({list_name}){
 export async function deleteExercise({exercise_name}) {
 
     const queryParams = new URLSearchParams({'name':exercise_name}).toString()
-    console.log(`exercise?${queryParams}`)
     try {
         const response = await api.delete(`exercise?${queryParams}`)
 

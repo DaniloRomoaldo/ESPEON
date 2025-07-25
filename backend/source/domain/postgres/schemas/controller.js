@@ -8,7 +8,6 @@ export const getSchemas = async (req, res) => {
         res.status(200).json(schemas);
 
     } catch (error) {
-       // console.log(error);
         res.status(400).json({error: ErrorHandler.showError(error)})
     }
 }

@@ -20,6 +20,7 @@ import * as exerciseController from "./domain/system/exercise/controller.js"
 
 //--------------------imports do módulo de laboratório de atividades --------
 import * as labAtividadesController from "./domain/laboratorioDeAtividades/lab/controller.js"
+import * as checkExerciseAnswer from "./domain/laboratorioDeAtividades/checkAnswer/controller.js"
 
 //------------------- imports do postgres -----------------------------------
 import * as schemasController from "./domain/postgres/schemas/controller.js"
@@ -103,6 +104,7 @@ app.delete("/exerciseList/:id", exercise_listController.destroyExerciseList)
 
 app.post("/startLabDeAtividades", authMiddleware , labAtividadesController.startLab)
 app.post("/stopLabDeAtividades", authMiddleware , labAtividadesController.stopLab)
+app.post("/checkExerciseAnswer", authMiddleware, checkExerciseAnswer.checkAnswer)
 
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------

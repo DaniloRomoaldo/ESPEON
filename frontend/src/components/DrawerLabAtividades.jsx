@@ -8,18 +8,6 @@ import FeedbackMessage from './FeedbackMessage';
 
 export default function DrawerLabAtividades({ isOpen, onClose, editorContent }) { 
 
-
-
-    const mockSuccessData = {
-    isCorrect: true,
-    response: "Parabéns, sua resposta está CORRETA! ✅"
-    };
-
-    const mockFailureData = {
-        isCorrect: false,
-        response: "Você quase conseguiu! Erros com a cláusula GROUP BY são muito comuns, até para os mais experientes. \n\nUma dica importante: quando você agrupa linhas com GROUP BY, todas as colunas no seu SELECT devem seguir uma regra. Elas precisam estar: \n\n1. Também na cláusula GROUP BY. \n\nOU \n\n2. Dentro de uma função de agregação, como COUNT(), SUM(), AVG(), MAX() ou MIN(). \n\nPor exemplo, se você quer ver o salário médio por departamento, o correto seria: \n`SELECT departamento, AVG(salario) FROM funcionarios GROUP BY departamento;` \n\nRevise as colunas que você está selecionando. Cada uma delas está no GROUP BY ou dentro de uma função de agregação? Continue tentando, você está quase lá!"
-    };
-
     
     const [exercises, setExercises] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -58,42 +46,26 @@ export default function DrawerLabAtividades({ isOpen, onClose, editorContent }) 
         setIsSubmitting(true);
         setFeedback(null);
 
-        // try {
-        //     const body = {
-        //         studentQuery: editorContent,
-        //         solutionQuery: currentExercise.solution_query
-        //     };
-
-            
-        //     const result = await checkAnswer(body);
-
-        //     setFeedback(result);
-
-
-        // } catch (error) {
-        //     console.log(`Erro ao submeter: ${error.message}`);
-        // } finally {
-        //     setIsSubmitting(false); // Desativa o loading
-        // }
-
-        // --- MODIFICAÇÃO TEMPORÁRIA PARA TESTE ---
         try {
-            // Simula a espera da API (1 segundo)
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const body = {
+                studentQuery: editorContent,
+                solutionQuery: currentExercise.solution_query,
+                exerciseDescription: currentExercise.description
+            };
 
-            // Escolha qual resposta você quer testar:
-            // const result = mockSuccessData; // Para testar o sucesso
-            const result = mockFailureData; // Para testar a falha/dica
+            console.log(body)
+            const result = await checkAnswer(body);
 
-            // Atualiza o estado com o resultado mockado
             setFeedback(result);
 
+
         } catch (error) {
-            // Este catch não será usado durante o mock, mas o mantemos
             console.log(`Erro ao submeter: ${error.message}`);
         } finally {
             setIsSubmitting(false); // Desativa o loading
         }
+
+
     };
     
 

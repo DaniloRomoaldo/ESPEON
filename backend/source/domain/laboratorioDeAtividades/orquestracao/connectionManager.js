@@ -7,7 +7,6 @@ const activeConnections = new Map();
 
 // função para criar e armazenar uma coenxão do Knex para um laboratório específico (futuramente pode limitar por aluno ou algo do tipo)
 export function createLabConnection(labSessionId, connectionConfig) {
-    console.log(`[ConnManager] Criando conexão para ${labSessionId} na porta ${connectionConfig.DB_PORT}`);
 
     const KnexInstance = Knex({
         client: 'pg',
@@ -40,7 +39,6 @@ export async function destroyLabConnection(labSessionId) {
 
     if (connection) {
 
-        console.log(`[ConnManager] Destruindo conexão para ${labSessionId}`);
         await connection.destroy(); // fecha a conexão do knex
         activeConnections.delete(labSessionId)
     }

@@ -41,7 +41,7 @@ export default function Login() {
             <div className="bg-[#202024] opacity-80 rounded-lg mb-4 sm:mb-10 h-auto min-h-[70vh] sm:min-h-[60vh] w-full sm:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40%] max-w-[500px] p-4 sm:p-6 md:p-8 flex flex-col overflow-y-auto">
                 {/* Título S.H.I.P. */}
                 <h1 className="text-white text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6">
-                    S.H.I.P.
+                    ESPEON
                 </h1>
 
                 {/* Formulário */}

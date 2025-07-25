@@ -14,6 +14,7 @@ export const rawQueryWithPID = async (body) => {
 
     const {rawQuery} = body;
 
+
     const {pid, resultPromise } = await  rawRepository.rawQueryWithPID(rawQuery)
 
     // trabalhando o retorno com promise

@@ -46,7 +46,7 @@ export default function Home() {
 
 
     return (
-        <div className="h-screen flex flex-col sm:grid sm:grid-cols-[15%_85%]">
+        <div className="h-screen flex flex-col sm:grid sm:grid-cols-[20%_80%]">
             {/* Coluna Esquerda (Treeview e Menu) */}
             <div className="h-auto sm:h-screen flex flex-col ">
                 {/* Menu Superior */}

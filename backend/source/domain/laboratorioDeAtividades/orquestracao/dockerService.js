@@ -31,13 +31,9 @@ export async function startLabContainer(labSessionId, dbPort, dumpPath) {
         // Executando o comando no terminal
         await execAsync(command, {env});
 
-       
-        console.log(`[DockerService] Container para ${labSessionId} iniciado com sucesso.`);
-
         return env;
 
     }catch (error){
-        console.error(`[DockerService] Exceção ao executar o comando:`, error);
         throw error;
     }
 
@@ -54,13 +50,11 @@ export async function stopLabContainer(labSessionId) {
     // comando 'down -v' derruba e remove todos os volumes do container
     const command = `docker-compose -f "${composeFilePath}" -p ${labSessionId} down -v`;
 
-    console.log(`[DockerService] Executando comando de parada: ${command}`);
 
     try {
         await execAsync(command);
-        console.log(`[DockerService] Ambiente para ${labSessionId} parado com sucesso.`);
+        //console.log(`[DockerService] Ambiente para ${labSessionId} parado com sucesso.`);
     }catch (error) {
-        console.error(`[DockerService] Erro ao parar o ambiente ${labSessionId}:`, error);
         throw error;
     }
 

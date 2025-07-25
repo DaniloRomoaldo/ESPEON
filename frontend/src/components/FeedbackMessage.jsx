@@ -20,7 +20,7 @@ export default function FeedbackMessage({ feedback }) {
         }
 
         let index = 0;
-        const fullText = feedback.response;
+        const fullText = '\n\n' + feedback.response;
         setDisplayedText(''); // Reseta o texto para iniciar a animação
 
         const typeCharacter = () => {

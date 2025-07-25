@@ -13,7 +13,6 @@ export const findByUser = async (query) => {
 
     const user = await serviceUser.findByEmail(query={email:email})
 
-    //console.log(user[0].id) 
 
     if(!user){
         throw new Error("Usuario não encontrado")
