@@ -1,4 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+
+
 export default function Register() {
+    const navigate = useNavigate();
+
+    const handleBack = () => {
+        navigate('/login'); 
+    };
+
     return (
         <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 bg-gray-900 p-4 sm:p-6 md:p-8">
             {/* Título CEFET-MG */}
@@ -10,7 +19,7 @@ export default function Register() {
             <div className="bg-[#202024] opacity-80 rounded-lg mb-4 sm:mb-10 h-auto min-h-[70vh] sm:min-h-[60vh] w-full sm:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40%] max-w-[500px] p-4 sm:p-6 md:p-8 flex flex-col overflow-y-auto">
                 {/* Título S.H.I.P. */}
                 <h1 className="text-white text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6">
-                    S.H.I.P.
+                    ESPEON
                 </h1>
 
                 {/* Formulário */}
@@ -68,17 +77,19 @@ export default function Register() {
                                     />
                                 </div>
                             </div>
+                            {/* Botão de Registro */}
+                            <div className="flex justify-between items-center mt-8">
+                                
+                                <button type="button" onClick={handleBack} className="text-gray-800 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
+                                    voltar
+                                </button>
+                                <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center">
+                                    Register
+                                 </button>
+
+                            </div>
                         </div>
 
-                        {/* Botão de Registro */}
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                className="text-white bg-gradient-to-br from-purple-700 to-blue-600 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center opacity-60 hover:opacity-100 cursor-pointer"
-                            >
-                                Register
-                            </button>
-                        </div>
                     </form>
                 </div>
             </div>

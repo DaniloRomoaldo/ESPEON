@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React from "react";
-
-export default function ExpansionButton({ functionName, schemaName, elementName , hookName}) {
+export default function ExpansionButton({ functionName }) {
     return (
-        <button 
-            onClick={() => setTimeout(() => functionName(schemaName, elementName, hookName), 0)}
+        <button
+            type="button"
             className="hs-accordion-toggle size-6 flex justify-center items-center hover:bg-gray-100 rounded-md focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-            aria-expanded="false"
-            aria-controls="hs-customize-tree-collapse-one"
+            // Passa o objeto de evento (e) para a função
+            onClick={(e) => functionName(e)}
         >
             <svg
                 className="hs-accordion-active:rotate-90 transition duration-300 size-2.5 text-gray-600 dark:text-neutral-400"

@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
 import {useForm} from "react-hook-form"
 import {useMutation} from "@tanstack/react-query"
 import { login } from "../api/login";
 import { useState } from "react"; 
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+    const navigate = useNavigate();
 
     const {
         register,
@@ -17,7 +20,7 @@ export default function Login() {
     const {mutateAsync: autenticate} = useMutation({
         mutationFn: login,
         onSuccess: () => {
-            window.location.href = "/home"; // O navigate causou problema com a maniulação do DOM pelo preline
+            navigate("/home"); // O navigate causou problema com a maniulação do DOM pelo preline
         },
         onError: (error) => {
             setErrorMessage(error.message);
@@ -110,26 +113,31 @@ export default function Login() {
                                 {...register("ambient", { defaultValue: "postgres" })}
                             >
                                 <option value="postgres" className="text-gray-900">PostgreSQL</option>
-                                <option value="mongo">MongoDB</option>
+                                
                             </select>
+                            {/* Botão de Login */}
+                            <div className="flex justify-end mt-10">
+                                <button
+                                    type="submit"
+                                    className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center disabled:opacity-50"
+                                    disabled={isSubmitting}
+                                >
+                                    Login
+                                </button>
+                            </div>
                         </div>
 
-                        {/* Botão de Login */}
-                        <div className="flex justify-end">
-                            <button
-                                type="submit"
-                                className="text-white bg-gradient-to-br from-purple-700 to-blue-600 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center opacity-60 hover:opacity-100 cursor-pointer"
-                                disabled={isSubmitting}
-                            >
-                                Login
-                            </button>
-                        </div>
+                        
 
-                        {/* Link "Forgot your password?" */}
+                        
+                    </form>
+                    {/* Link "Forgot your password?" */}
                         <p className="text-center text-white opacity-30 hover:opacity-100 font-extralight text-[16px] sm:text-[20px] cursor-pointer">
                             Forgot your password?
                         </p>
-                    </form>
+                        <Link to="/register" className="text-center text-white opacity-60 hover:opacity-100 font-extralight text-[16px] sm:text-[20px] cursor-pointer mt-0.5">
+                            Register
+                        </Link>
                 </div>
             </div>
         </div>

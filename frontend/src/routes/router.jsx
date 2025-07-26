@@ -9,8 +9,21 @@ import ViewExercises from "../pages/viewExercises"
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useLabSessionWatcher } from '../hooks/useLabSessionWatcher';
+import { useLocation } from "react-router-dom";
+
 
 export default function Router (){
+    const location = useLocation();
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (window.HSStaticMethods?.autoInit) {
+                window.HSStaticMethods.autoInit();
+            }
+        }, 400); // aguarda o DOM montar
+
+        return () => clearTimeout(timeout);
+    }, [location.pathname]);
 
     // observador se existe uma sessão de laboratório ativa
     useLabSessionWatcher();
@@ -32,9 +45,9 @@ export default function Router (){
             <Route index element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/registerExerciseLists" element={<ExerciseLists />} />
-            <Route path="/viewListExerciseLists" element={<ViewExerciseLists />} />
-            <Route path="/exercises" element={<ViewExercises />} />
+            <Route path="/registerExerciseLists" element={<ProtectedRoutes><ExerciseLists /></ProtectedRoutes>} />
+            <Route path="/viewListExerciseLists" element={<ProtectedRoutes><ViewExerciseLists /></ProtectedRoutes>} />
+            <Route path="/exercises" element={<ProtectedRoutes><ViewExercises /></ProtectedRoutes>} />
             <Route
                 path="/home"
                 element={

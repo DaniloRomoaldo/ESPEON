@@ -83,20 +83,20 @@ app.post("/createUserPermission", authMiddleware , userPermissionController.crea
 //--------------------------------- Rotas do módulo de exercícios SQL -------------------------------------------------------
 const upload = multer({storage: storage})
 
-app.get("/exercises", exerciseController.findAllByList)
-app.get("/exercise/:id", exerciseController.findById)
-app.get("/exercise", exerciseController.findByName)
-app.post("/exercise", exerciseController.create)
-app.patch("/exercise", exerciseController.update)
-app.delete("/exercise", exerciseController.deleteExercise)
+app.get("/exercises",authMiddleware ,  exerciseController.findAllByList)
+app.get("/exercise/:id",authMiddleware ,  exerciseController.findById)
+app.get("/exercise", authMiddleware , exerciseController.findByName)
+app.post("/exercise", authMiddleware , exerciseController.create)
+app.patch("/exercise", authMiddleware , exerciseController.update)
+app.delete("/exercise", authMiddleware , exerciseController.deleteExercise)
 
 
 
 // lista de exercício
 app.post("/exerciseListDownload", upload.single('file'), addPathToBody , exercise_listController.createExercise_list);
-app.get("/exerciseLists", exercise_listController.findAll) // lembrar de add o middleware de autenticação
-app.get("/exerciseList/:id", exercise_listController.findById)
-app.get("/exerciseList", exercise_listController.findByName)
+app.get("/exerciseLists", authMiddleware , exercise_listController.findAll) // lembrar de add o middleware de autenticação
+app.get("/exerciseList/:id", authMiddleware , exercise_listController.findById)
+app.get("/exerciseList", authMiddleware , exercise_listController.findByName)
 
 app.delete("/exerciseList/:id", exercise_listController.destroyExerciseList)
 

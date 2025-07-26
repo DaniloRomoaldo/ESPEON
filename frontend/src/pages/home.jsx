@@ -4,15 +4,36 @@ import OutputTable from "../layouts/OutputTable";
 import HamburguerMenu from "../components/HamburguerMenu";
 import OutputError from "../layouts/OutputError";
 import OutputSucess from "../layouts/OutputSucess";
-
+import Cookies from 'js-cookie';
 import { useState , useEffect } from "react";
 import DrawerLabAtividades from "../components/DrawerLabAtividades";
 import DrawerMenu from "../components/DrawerMenu";
 
+// gambiarra para resolver o preline
+import { useNavigate } from "react-router-dom";
 
-import Cookies from 'js-cookie';
+
+
+
+
+
 
 export default function Home() {
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Verifica se é o primeiro carregamento após F5
+        const reloaded = sessionStorage.getItem('reloaded-home');
+
+        if (!reloaded) {
+            sessionStorage.setItem('reloaded-home', 'true');
+            navigate('/home');
+        } else {
+            sessionStorage.removeItem('reloaded-home');
+        }
+    }, []);
+
 
     const [dataTable, setDataTable] = useState({success: null, rows: [], fields: [] ,command: null, error: null });
     const [elapsed, setElapsed] = useState(0);
@@ -58,7 +79,7 @@ export default function Home() {
                 </div>
 
                 {/* Treeview */}
-                <div className="bg-[rgba(23,21,13,0.4)] flex-grow border-l-4 border-b-4 border-t-4 border-[#08090b8f] overflow-scroll">
+                <div className="bg-[rgba(23,21,13,0.4)] flex-grow border-l-4 border-b-4 border-t-4 border-[#08090b8f] overflow-y-auto">
                     <Treeview />
                 </div>
             </div>
@@ -76,7 +97,7 @@ export default function Home() {
                 </div>
 
                 {/* OutputTable */}
-                <div className="bg-[rgba(23,21,13,0.4)] h-[40vh] sm:h-[40%] border-r-6 border-l-4 border-b-4 border-t-2 border-[#08090b] overflow-y-auto">
+                <div className="bg-[rgba(23,21,13,0.4)] h-[40vh] sm:h-[40%] border-r-6 border-l-4 border-b-4 border-t-2 border-[#08090b] overflow-auto">
                 {running ? (
                     <div className="flex justify-center items-center h-full text-gray-300 italic">
                         Carregando { (elapsed/1000).toFixed(1) }s
@@ -91,7 +112,6 @@ export default function Home() {
                 </div>
             </div>
 
-            {/*Se não existir uma sessão de laboratório, abre o menu e se existir é o Drawer de Exercícios */}
                 {labSessionId ? (
                     <DrawerLabAtividades isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} editorContent={editorContent} />
                 ) : (

@@ -31,7 +31,7 @@ export async function callGeminiApi(validationContext, exerciseDescription) {
                 },
             ],
             generationConfig:{
-                maxOutputTokens: 350,
+                maxOutputTokens: 400,
             },
         });
 

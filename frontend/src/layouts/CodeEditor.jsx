@@ -120,7 +120,7 @@ export default function CodeEditor({ setDataTable, onStartQuery, onEndQuery, onC
                 <button
                     onClick={runCode}
                     type="button"
-                    className="rotate-45 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-1 py-1.5 mx-2 text-center cursor-pointer dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
+                    className="rotate-90 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-1 py-1.5 mx-2 text-center cursor-pointer dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
                 >
                     <svg
                         viewBox="0 0 24 24"

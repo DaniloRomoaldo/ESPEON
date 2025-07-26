@@ -1,18 +1,30 @@
-// eslint-disable-next-line react/prop-types
+/* eslint-disable react/prop-types */
+import Cookies from 'js-cookie'; // <-- 1. Importe a biblioteca de cookies
+
 export default function HamburguerMenu ({ onOpen }) {
+    // <-- 2. Leia o cookie para saber o contexto atual
+    const labSessionId = Cookies.get('labSessionId');
+
     return (
         <button 
             type="button" 
-            data-drawer-target="drawer-example"
-            data-drawer-show="drawer-example"
-            aria-controls="drawer-example"
             onClick={onOpen} 
             className="inline-flex items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 cursor-pointer"
         >
             <span className="sr-only">Open main menu</span>
-            <svg className="w-8 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
-            </svg>
+
+            {/* <-- 3. Renderização condicional do ícone --> */}
+            {labSessionId ? (
+                // Se estiver em um laboratório, mostra o ícone de LÁPIS
+                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z"/>
+                </svg>
+            ) : (
+                // Se estiver no Sandbox, mostra o ícone de HAMBÚRGUER
+                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+                </svg>
+            )}
         </button>
     );
 }
