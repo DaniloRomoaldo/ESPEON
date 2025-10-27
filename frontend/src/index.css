@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #10131B;
+  background-color: #151519; //#151519
   font-family:'Inter';
 }
 
@@ -10,3 +10,5 @@ body {
 .dt-layout-row:has(.dt-paging) {
   display: none !important;
 }
+
+//bg-stone-900/40

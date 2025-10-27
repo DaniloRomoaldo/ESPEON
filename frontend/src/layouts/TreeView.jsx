@@ -61,7 +61,7 @@ export default function Treeview() {
     ];
 
     return (
-        <div className="h-full w-full overflow-y-auto p-2 overflow-scroll">
+        <div className="h-full w-full overflow-y-auto p-2 overflow-scroll bg-[#131315]">
             <div className="hs-accordion-treeview-root overflow-y-auto overflow-x-auto w-full" role="tree" aria-orientation="vertical">
                 <div className="hs-accordion-group" role="group" data-hs-accordion-always-open="">
                     <div className="hs-accordion active" role="treeitem" aria-expanded="false" id="hs-customize-tree-heading-one">

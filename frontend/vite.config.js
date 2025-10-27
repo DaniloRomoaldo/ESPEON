@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import formsPlugin from '@tailwindcss/forms' 
+import prelinePlugin from 'preline/plugin' 
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,9 +20,18 @@ export default defineConfig({
 },
   content: [
     'node_modules/preline/dist/*.js',
+    './index.html', 
+    './src/**/*.{js,ts,jsx,tsx}',
   ],
   plugins: [
     react(),
-    tailwindcss()
+    tailwindcss({
+      config:{
+        plugins:[
+          formsPlugin,
+          prelinePlugin
+        ]
+      }
+    })
   ]
 })

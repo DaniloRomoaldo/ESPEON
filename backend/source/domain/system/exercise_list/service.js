@@ -1,7 +1,7 @@
 import * as repositoryExercise_list from './repository.js'
 import * as repositoryExercise from '../exercise/repository.js'
 import * as repositoryUsers from '../users/repository.js'
-import { databaseSHIP } from '../../../kenx/knexfile.js';
+import { databaseESPEON } from '../../../kenx/knexfile.js';
 import path from 'path';
 import fs from 'fs/promises';
 

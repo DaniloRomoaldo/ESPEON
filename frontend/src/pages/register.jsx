@@ -1,15 +1,55 @@
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api/register';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
 
 
 export default function Register() {
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleBack = () => {
         navigate('/login'); 
     };
 
+    const{
+        register,
+        handleSubmit,
+        formState: {isSubmitting}
+    } = useForm();
+
+
+    const {mutateAsync: createUser} = useMutation({
+        mutationFn: registerUser,
+        onSuccess: () => {
+            navigate('/login')
+        },
+        onError: (error) => {
+            setErrorMessage(error.message);
+        }
+    });
+
+
+    async function handleRegister(data) {
+        setErrorMessage(null);
+
+        if (data.password !== data.confirm_password) {
+            setErrorMessage("Senhas não concidem")
+            return;
+        }
+
+        try{
+            await createUser({email: data.email, password: data.password})
+        } catch (err){
+            console.log(err)
+        }
+        
+    }
+
+
     return (
-        <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 bg-gray-900 p-4 sm:p-6 md:p-8">
+        <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-4 sm:p-6 md:p-8">
             {/* Título CEFET-MG */}
             <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">
                 CEFET - MG
@@ -24,7 +64,7 @@ export default function Register() {
 
                 {/* Formulário */}
                 <div className="w-full mx-auto flex-grow flex flex-col justify-between">
-                    <form className="flex-grow flex flex-col justify-between space-y-3 sm:space-y-6" action="#" method="POST">
+                    <form onSubmit={handleSubmit(handleRegister)} className="flex-grow flex flex-col justify-between space-y-3 sm:space-y-6" action="#" method="POST">
                         {/* Campos do Formulário */}
                         <div>
                             {/* Campo de Email */}
@@ -40,6 +80,7 @@ export default function Register() {
                                         autoComplete="email"
                                         required
                                         className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                                        {...register("email")}
                                     />
                                 </div>
                             </div>
@@ -57,6 +98,7 @@ export default function Register() {
                                         autoComplete="password"
                                         required
                                         className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                                        {...register("password")}
                                     />
                                 </div>
                             </div>
@@ -74,16 +116,25 @@ export default function Register() {
                                         autoComplete="password"
                                         required
                                         className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                                        {...register("confirm_password")}
                                     />
                                 </div>
                             </div>
+                                {/* Adicionando o display de erro */}
+                                {errorMessage && (
+                                    <div className="flex items-center gap-2 text-red-500 mt-2">
+                                        <span>{errorMessage}</span>
+                                    </div>
+                                )}
                             {/* Botão de Registro */}
                             <div className="flex justify-between items-center mt-8">
                                 
                                 <button type="button" onClick={handleBack} className="text-gray-800 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
                                     voltar
                                 </button>
-                                <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center">
+                                <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center"
+                                    disabled={isSubmitting}
+                                >
                                     Register
                                  </button>
 

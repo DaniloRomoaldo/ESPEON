@@ -1,16 +1,16 @@
-import { databaseSHIP } from "../../../kenx/knexfile.js";
+import { databaseESPEON } from "../../../kenx/knexfile.js";
 
 // Métodos GET
 export const findAll = async () => {
-    return databaseSHIP('user_permission').select()
+    return databaseESPEON('user_permission').select()
 }
 
 export const findById = async (id) => {
-    return databaseSHIP('user_permission').select().where({id:id})
+    return databaseESPEON('user_permission').select().where({id:id})
 }
 
 export const findByUserId = async (user_id) => {
-    return databaseSHIP.select(databaseSHIP.ref('name').as('permission'))
+    return databaseESPEON.select(databaseESPEON.ref('name').as('permission'))
                         .from('user_permission')
                         .join('users', 'users.id', 'user_permission.user_id')
                         .join('permissions', 'permissions.id', 'user_permission.permission_id')
@@ -19,7 +19,7 @@ export const findByUserId = async (user_id) => {
 }
 
 export const findByPermissionId = async (permission_id) => {
-    return databaseSHIP.select(databaseSHIP.ref('email').as('user'))
+    return databaseESPEON.select(databaseESPEON.ref('email').as('user'))
                         .from('user_permission')
                         .join('users', 'users.id', 'user_permission.user_id')
                         .join('permissions', 'permissions.id', 'user_permission.permission_id')
@@ -29,7 +29,7 @@ export const findByPermissionId = async (permission_id) => {
 
 // Método POST
 export const create = async (user_permission) => {
-    await databaseSHIP('user_permission').insert({
+    await databaseESPEON('user_permission').insert({
         user_id: user_permission.user_id,
         permission_id: user_permission.permission_id
     })
@@ -48,5 +48,5 @@ export const update = async (id, user_permission) => {
 
 // Método DELETE
 export const destroy = async (id) => {
-    await databaseSHIP('user_permission').where({id:id}).del();
+    await databaseESPEON('user_permission').where({id:id}).del();
 }

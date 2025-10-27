@@ -10,7 +10,7 @@ export default function Alert({ message, onClose }) {
           {message}
         </div>
         <button
-          onClick={onClose} // 👈 Adiciona o evento aqui!
+          onClick={onClose}
           type="button"
           className="ms-auto -mx-1.5 -my-1.5 bg-gray-50 text-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 p-1.5 hover:bg-gray-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
           aria-label="Close"

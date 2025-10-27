@@ -7,6 +7,7 @@ import ExerciseLists from "../pages/registerExerciseLists"
 import ViewExerciseLists from "../pages/viewExerciseLists"
 import ViewExercises from "../pages/viewExercises"
 import Cookies from "js-cookie";
+import LogAnswers from "../pages/logReportAnswers"
 import { useEffect } from "react";
 import { useLabSessionWatcher } from '../hooks/useLabSessionWatcher';
 import { useLocation } from "react-router-dom";
@@ -48,6 +49,7 @@ export default function Router (){
             <Route path="/registerExerciseLists" element={<ProtectedRoutes><ExerciseLists /></ProtectedRoutes>} />
             <Route path="/viewListExerciseLists" element={<ProtectedRoutes><ViewExerciseLists /></ProtectedRoutes>} />
             <Route path="/exercises" element={<ProtectedRoutes><ViewExercises /></ProtectedRoutes>} />
+            <Route path="/logReportAnswers" element={<ProtectedRoutes><LogAnswers /></ProtectedRoutes>} />
             <Route
                 path="/home"
                 element={

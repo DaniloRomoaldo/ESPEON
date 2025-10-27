@@ -1,7 +1,7 @@
-import { databaseSHIP } from "../../../kenx/knexfile.js";
+import { databaseESPEON } from "../../../kenx/knexfile.js";
 
 export const findAll = async (name_list) => {
-    return databaseSHIP.select(
+    return databaseESPEON.select(
         'exercise.id',
         'exercise.exercise_list_id',
         'exercise_list.name as name_list',
@@ -17,7 +17,7 @@ export const findAll = async (name_list) => {
 }
 
 export const findById = async (id) => {
-    return databaseSHIP.select(
+    return databaseESPEON.select(
         'exercise.id',
         'exercise.exercise_list_id',
         'exercise_list.name as name_list',
@@ -32,7 +32,7 @@ export const findById = async (id) => {
 }
 
 export const findByName = async (name) => {
-    return databaseSHIP.select(
+    return databaseESPEON.select(
         'exercise.id',
         'exercise.exercise_list_id',
         'exercise_list.name as name_list',
@@ -47,7 +47,7 @@ export const findByName = async (name) => {
 }
 
 export const findByExerciceList = async(id) => {
-    return databaseSHIP.select('name','description').from('exercise').where({'exercise_list_id':id})
+    return databaseESPEON.select('name','description').from('exercise').where({'exercise_list_id':id})
 }
 
 export const bulkCreate = async (exercises) => {
@@ -55,11 +55,11 @@ export const bulkCreate = async (exercises) => {
         return []
     };
 
-    return await databaseSHIP('exercise').insert(exercises);
+    return await databaseESPEON('exercise').insert(exercises);
 }
 
 export const create = async (exercise) => {
-    await databaseSHIP('exercise').insert({
+    await databaseESPEON('exercise').insert({
         exercise_list_id: exercise.exercise_list_id,
         name: exercise.name,
         description: exercise.description,
@@ -70,7 +70,7 @@ export const create = async (exercise) => {
 
 export const update = async (id, exercise) => {
 
-    await databaseSHIP('exercise').where({id:id}).update({
+    await databaseESPEON('exercise').where({id:id}).update({
         name: exercise.name,
         description: exercise.description,
         solution_query: exercise.solution_query,
@@ -79,13 +79,13 @@ export const update = async (id, exercise) => {
 }
 
 export const destroy = async(id) => {
-    await databaseSHIP.transaction( async (trx) => {
+    await databaseESPEON.transaction( async (trx) => {
         await trx('exercise').where({id:id}).del()
     })
 }
 
 export const destroyByList = async (list_id) => {
-    await databaseSHIP.transaction( async (trx) =>{
+    await databaseESPEON.transaction( async (trx) =>{
         await trx('exercise').where({exercise_list_id:list_id}).del()
     })
 }

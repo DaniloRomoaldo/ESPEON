@@ -34,7 +34,7 @@ export default function Login() {
     }
 
     return (
-        <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 bg-gray-900 p-4 sm:p-6 md:p-8">
+        <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-4 sm:p-6 md:p-8">
             {/* Título CEFET-MG */}
             <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">
                 CEFET - MG

@@ -10,7 +10,7 @@ export default function ViewExercises(){
     return(
         
         <>
-            <div className="relative h-screen flex flex-col items-center bg-gray-900 p-4 sm:p-6 md:p-8">
+            <div className="relative h-screen flex flex-col items-center p-4 sm:p-6 md:p-8">
                 
                 
                 <div className="absolute top-6 left-6 z-10">
