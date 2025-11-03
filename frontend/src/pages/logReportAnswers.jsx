@@ -17,7 +17,6 @@ export default function LogReportAnswers() {
   const [apiFilters, setApiFilters] = useState(null);
 
   const handleApiSearch = (formData) => {
-    console.log("Filtros recebidos do Modal:", formData);
     setApiFilters(formData);
     setIsModalOpen(false);
   };
@@ -33,8 +32,6 @@ export default function LogReportAnswers() {
     enabled: !!apiFilters,
     refetchOnWindowFocus: false,
   });
-
-  console.log("Dados do Relatório (useQuery):", reportData);
 
   return (
     <>

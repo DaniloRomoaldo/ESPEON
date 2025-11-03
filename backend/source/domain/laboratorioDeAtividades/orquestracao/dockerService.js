@@ -24,7 +24,7 @@ export async function startLabContainer(labSessionId, dbPort, dumpPath) {
   // -p é o nome do projeto, é cricial para o isomenento do banco de dados
   const command = `docker-compose -f "${composeFilePath}" -p ${labSessionId} up -d`;
 
-  console.log(`[DockerService] Executando comando: ${command}`);
+  // console.log(`[DockerService] Executando comando: ${command}`);
 
   try {
     // Executando o comando no terminal
@@ -47,7 +47,6 @@ export async function stopLabContainer(labSessionId) {
 
   try {
     await execAsync(command);
-    //console.log(`[DockerService] Ambiente para ${labSessionId} parado com sucesso.`);
   } catch (error) {
     throw error;
   }

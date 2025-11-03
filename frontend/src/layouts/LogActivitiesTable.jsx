@@ -51,7 +51,6 @@ export default function LogActivitiesTable({ data = [], onRowClick }) {
   };
 
   const handleRowClick = (item) => {
-    console.log("Linha clicada:", item);
     setSelectedItem(item);
   };
 

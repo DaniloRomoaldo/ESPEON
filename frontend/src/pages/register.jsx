@@ -1,3 +1,5 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-unused-vars */
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/register";
 import { useForm } from "react-hook-form";
@@ -39,7 +41,6 @@ export default function Register() {
     try {
       await createUser({ email: data.email, password: data.password });
     } catch (err) {
-      console.log(err);
     }
   }
 

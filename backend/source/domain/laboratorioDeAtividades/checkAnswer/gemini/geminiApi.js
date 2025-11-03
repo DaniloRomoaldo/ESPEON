@@ -46,7 +46,6 @@ export async function callGeminiApi(validationContext, exerciseDescription) {
 
     return text;
   } catch (error) {
-    console.log(error);
     return "Oops! Não consegui gerar uma dica agora. Verifique se sua query tem erros de sintaxe no nome das colunas.";
   }
 }

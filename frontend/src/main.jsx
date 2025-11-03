@@ -22,7 +22,6 @@ root.render(
   </React.StrictMode>
 );
 
-// === MUTATION OBSERVER: garante que Preline init após qualquer mudança de DOM ===
 const observer = new MutationObserver(() => {
   if (window.HSStaticMethods?.autoInit) {
     window.HSStaticMethods.autoInit();

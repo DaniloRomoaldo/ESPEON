@@ -35,7 +35,6 @@ function autenticateWebSocketConnection(req, ws) {
 }
 
 wss.on("connection", (ws, req) => {
-  console.log("cliente conectado no webSocket");
 
   // validação do token (auenticação)
   try {
@@ -118,8 +117,5 @@ wss.on("connection", (ws, req) => {
   });
 
   ws.on("close", () => {
-    console.log("conexão finalizada");
   });
 });
-
-console.log("webScoker no ar!!!");

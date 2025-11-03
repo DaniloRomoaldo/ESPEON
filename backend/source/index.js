@@ -203,4 +203,4 @@ app.get("/enumValues", authMiddleware, enumsController.getEnumValues);
 // exemplo
 //app.get("/triggers?schema_name")
 
-app.listen(port, () => console.log("Api em Execução"));
+app.listen(port);

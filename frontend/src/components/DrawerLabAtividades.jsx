@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-empty */
 /* eslint-disable react/prop-types */
 import { stopLab, checkAnswer } from "../api/labManager";
 import Cookies from "js-cookie";
@@ -64,7 +66,7 @@ export default function DrawerLabAtividades({
 
       setFeedback(result);
     } catch (error) {
-      console.log(`Erro ao submeter: ${error.message}`);
+      
     } finally {
       setIsSubmitting(false); // Desativa o loading
     }
