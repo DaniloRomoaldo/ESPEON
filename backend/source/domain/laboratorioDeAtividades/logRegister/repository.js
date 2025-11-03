@@ -26,7 +26,6 @@ export const getUsersLog = async () => {
   return await databaseESPEON("log_exercise_list").distinct("user_email");
 };
 
-
 // terceiro, pegar todas as respsotas de um aluno em uma questão
 export const generateActivityReport = async (
   list_name,
@@ -58,31 +57,41 @@ export const generateActivityReport = async (
 export const getAggregatedLogReport = async (filters) => {
   const { listNames, exercisesNames, userEmails, dateStart, dateEnd } = filters;
 
-  let query = databaseESPEON("log_exercise_list").select(
-    "list_name",
-    "exercise_name",
-    "user_email",
-    databaseESPEON.raw(
-      "MAX(CASE WHEN response_evaluation = TRUE THEN 1 ELSE 0 END) AS acertos"
-    ),
-    databaseESPEON.raw(
-      "SUM(CASE WHEN response_evaluation = FALSE THEN 1 ELSE 0 END) AS erros"
+  let query = databaseESPEON("log_exercise_list")
+    .select(
+      "list_name",
+      "exercise_name",
+      "user_email",
+      databaseESPEON.raw(
+        "MAX(CASE WHEN response_evaluation = TRUE THEN 1 ELSE 0 END) AS acertos"
+      ),
+      databaseESPEON.raw(
+        "SUM(CASE WHEN response_evaluation = FALSE THEN 1 ELSE 0 END) AS erros"
+      )
     )
-  )
-  .groupBy("list_name", "exercise_name", "user_email")
-  .orderBy([
+    .groupBy("list_name", "exercise_name", "user_email")
+    .orderBy([
       { column: "user_email" },
       { column: "list_name" },
       { column: "exercise_name" },
     ]);
 
-    // verifica se as datas são vazias ou nulas
-  if (dateStart && dateEnd && dateStart !== '' && dateEnd !== '') {
-    query = query.whereBetween(databaseESPEON.raw('created_at::date'), [dateStart, dateEnd]);
-  }else if (dateStart && dateStart !== '') { // mais que data de início
-    query = query.where(databaseESPEON.raw('created_at::date'), '>=', dateStart);
-  } else if (dateEnd && dateEnd !== '') { // menor que data limite
-    query = query.where(databaseESPEON.raw('created_at::date'), '<=', dateEnd);
+  // verifica se as datas são vazias ou nulas
+  if (dateStart && dateEnd && dateStart !== "" && dateEnd !== "") {
+    query = query.whereBetween(databaseESPEON.raw("created_at::date"), [
+      dateStart,
+      dateEnd,
+    ]);
+  } else if (dateStart && dateStart !== "") {
+    // mais que data de início
+    query = query.where(
+      databaseESPEON.raw("created_at::date"),
+      ">=",
+      dateStart
+    );
+  } else if (dateEnd && dateEnd !== "") {
+    // menor que data limite
+    query = query.where(databaseESPEON.raw("created_at::date"), "<=", dateEnd);
   }
 
   // filtro do nome da lista de exercícios
@@ -107,5 +116,27 @@ export const getAggregatedLogReport = async (filters) => {
   } catch (error) {
     throw new Error("Falha ao buscar o relatório agregado.");
   }
+};
 
+export const getUserAnswersByExercise = async (filters) => {
+  const { list_name, exercise_name, user_email } = filters;
+
+  const result = await databaseESPEON("log_exercise_list")
+    .select(
+      "list_name",
+      "exercise_name",
+      "user_response",
+      "response_evaluation",
+      "created_at",
+      "user_email",
+      "exercise_solution"
+    )
+    .where({
+      list_name: list_name,
+      exercise_name: exercise_name,
+      user_email: user_email,
+    })
+    .orderBy("created_at", "desc");
+
+  return result;
 };

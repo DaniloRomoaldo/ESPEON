@@ -1,92 +1,96 @@
 import { databaseESPEON } from "../../../kenx/knexfile.js";
 
 export const findAll = async (name_list) => {
-    return databaseESPEON.select(
-        'exercise.id',
-        'exercise.exercise_list_id',
-        'exercise_list.name as name_list',
-        'exercise.name',
-        'exercise.description',
-        'exercise.solution_query',
-        'exercise.created_at',
+  return databaseESPEON
+    .select(
+      "exercise.id",
+      "exercise.exercise_list_id",
+      "exercise_list.name as name_list",
+      "exercise.name",
+      "exercise.description",
+      "exercise.solution_query",
+      "exercise.created_at"
     )
-    .from('exercise')
-    .join('exercise_list', 'exercise_list.id', 'exercise.exercise_list_id')
-    .where({'exercise_list.name':name_list})
-    .orderBy('exercise.created_at', 'desc')
-}
+    .from("exercise")
+    .join("exercise_list", "exercise_list.id", "exercise.exercise_list_id")
+    .where({ "exercise_list.name": name_list })
+    .orderBy("exercise.created_at", "desc");
+};
 
 export const findById = async (id) => {
-    return databaseESPEON.select(
-        'exercise.id',
-        'exercise.exercise_list_id',
-        'exercise_list.name as name_list',
-        'exercise.name',
-        'exercise.description',
-        'exercise.solution_query',
-        'exercise.created_at',
+  return databaseESPEON
+    .select(
+      "exercise.id",
+      "exercise.exercise_list_id",
+      "exercise_list.name as name_list",
+      "exercise.name",
+      "exercise.description",
+      "exercise.solution_query",
+      "exercise.created_at"
     )
-    .from('exercise')
-    .join('exercise_list', 'exercise_list.id', 'exercise.exercise_list_id')
-    .where({'exercise.id':id})
-}
+    .from("exercise")
+    .join("exercise_list", "exercise_list.id", "exercise.exercise_list_id")
+    .where({ "exercise.id": id });
+};
 
 export const findByName = async (name) => {
-    return databaseESPEON.select(
-        'exercise.id',
-        'exercise.exercise_list_id',
-        'exercise_list.name as name_list',
-        'exercise.name',
-        'exercise.description',
-        'exercise.solution_query',
-        'exercise.created_at',  
+  return databaseESPEON
+    .select(
+      "exercise.id",
+      "exercise.exercise_list_id",
+      "exercise_list.name as name_list",
+      "exercise.name",
+      "exercise.description",
+      "exercise.solution_query",
+      "exercise.created_at"
     )
-    .from('exercise')
-    .join('exercise_list', 'exercise_list.id', 'exercise.exercise_list_id')
-    .where({'exercise.name':name})
-}
+    .from("exercise")
+    .join("exercise_list", "exercise_list.id", "exercise.exercise_list_id")
+    .where({ "exercise.name": name });
+};
 
-export const findByExerciceList = async(id) => {
-    return databaseESPEON.select('name','description').from('exercise').where({'exercise_list_id':id})
-}
+export const findByExerciceList = async (id) => {
+  return databaseESPEON
+    .select("name", "description")
+    .from("exercise")
+    .where({ exercise_list_id: id });
+};
 
 export const bulkCreate = async (exercises) => {
-    if (!exercises || exercises.length === 0){
-        return []
-    };
+  if (!exercises || exercises.length === 0) {
+    return [];
+  }
 
-    return await databaseESPEON('exercise').insert(exercises);
-}
+  return await databaseESPEON("exercise").insert(exercises);
+};
 
 export const create = async (exercise) => {
-    await databaseESPEON('exercise').insert({
-        exercise_list_id: exercise.exercise_list_id,
-        name: exercise.name,
-        description: exercise.description,
-        solution_query: exercise.solution_query,
-        created_at: exercise.created_at
-    })
-}
+  await databaseESPEON("exercise").insert({
+    exercise_list_id: exercise.exercise_list_id,
+    name: exercise.name,
+    description: exercise.description,
+    solution_query: exercise.solution_query,
+    created_at: exercise.created_at,
+  });
+};
 
 export const update = async (id, exercise) => {
+  await databaseESPEON("exercise").where({ id: id }).update({
+    name: exercise.name,
+    description: exercise.description,
+    solution_query: exercise.solution_query,
+    created_at: new Date(),
+  });
+};
 
-    await databaseESPEON('exercise').where({id:id}).update({
-        name: exercise.name,
-        description: exercise.description,
-        solution_query: exercise.solution_query,
-        created_at: new Date()
-    })
-}
-
-export const destroy = async(id) => {
-    await databaseESPEON.transaction( async (trx) => {
-        await trx('exercise').where({id:id}).del()
-    })
-}
+export const destroy = async (id) => {
+  await databaseESPEON.transaction(async (trx) => {
+    await trx("exercise").where({ id: id }).del();
+  });
+};
 
 export const destroyByList = async (list_id) => {
-    await databaseESPEON.transaction( async (trx) =>{
-        await trx('exercise').where({exercise_list_id:list_id}).del()
-    })
-}
-
+  await databaseESPEON.transaction(async (trx) => {
+    await trx("exercise").where({ exercise_list_id: list_id }).del();
+  });
+};

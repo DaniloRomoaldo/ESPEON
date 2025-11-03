@@ -1,8 +1,7 @@
-import portfinder from 'portfinder';
+import portfinder from "portfinder";
 
-export async function findFreePort(){
-    portfinder.basePort = 56000;
+export async function findFreePort() {
+  portfinder.basePort = 56000;
 
-    return portfinder.getPortPromise();
+  return portfinder.getPortPromise();
 }
-

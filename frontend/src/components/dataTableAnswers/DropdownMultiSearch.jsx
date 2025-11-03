@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -10,24 +9,22 @@ export default function DropdownMultiSearch({
   placeholder,
   onSelectionChange,
 }) {
-  // Estados internos do modal
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
   const { data: allItems = [], isLoading } = useQuery({
-    queryKey: [queryKey], // essa é a chave do cache para salvar
-    queryFn: queryFn, // função da api que vai resgatar os dados
+    queryKey: [queryKey],
+    queryFn: queryFn,
+    enabled: isOpen,
   });
 
-  // useMemo controla se precisa recalcular caso allItems ou searchTerm mudar
   const filteredItems = useMemo(() => {
     return allItems.filter((item) =>
-      (item[dataKey] ?? '').toLowerCase().includes(searchTerm.toLowerCase())
+      (item[dataKey] ?? "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [allItems, searchTerm, dataKey]);
 
-  // checkbok para multiplas seleções
   const handleCheckboxChange = (itemName) => {
     let newSelection;
     if (selectedItems.includes(itemName)) {
@@ -37,10 +34,9 @@ export default function DropdownMultiSearch({
     }
 
     setSelectedItems(newSelection);
-    onSelectionChange(newSelection); // Devolve o array de seleções para o modal
+    onSelectionChange(newSelection);
   };
 
-  // logica para buscar o texto
   let buttonText = placeholder;
   if (selectedItems.length === 1) {
     buttonText = selectedItems[0];
@@ -50,13 +46,12 @@ export default function DropdownMultiSearch({
 
   return (
     <div className="relative w-full">
-      {/* O Botão principal que abre o dropdown */}
       <button
         id="dropdownSearchButton"
         onClick={() => setIsOpen(!isOpen)}
         data-dropdown-placement="bottom"
         className="text-white focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between w-full dark:bg-gray-600 dark:hover:bg-gray-500 "
-        type="button" // Importante: 'type="button"' impede o envio do formulário
+        type="button"
       >
         <span className="truncate">{buttonText}</span>
         <svg
@@ -76,13 +71,11 @@ export default function DropdownMultiSearch({
         </svg>
       </button>
 
-      {/* O Menu Dropdown (só aparece se isOpen === true) */}
       {isOpen && (
         <div
           id="dropdownSearch"
           className="z-10 absolute mt-1 bg-white rounded-lg shadow-sm w-full dark:bg-gray-700"
         >
-          {/* A caixa de pesquisa interna */}
           <div className="p-3">
             <label htmlFor="input-group-search" className="sr-only">
               Search
@@ -116,7 +109,6 @@ export default function DropdownMultiSearch({
             </div>
           </div>
 
-          {/* A lista de itens (scrollável) - vindo da API */}
           <ul
             className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownSearchButton"
@@ -130,9 +122,9 @@ export default function DropdownMultiSearch({
             )}
 
             {filteredItems.map((item, index) => {
-              const itemName = item[dataKey]; // Ex: "Exercicios SQL - JOIN..."
+              const itemName = item[dataKey];
               const isChecked = selectedItems.includes(itemName);
-              const checkboxId = `checkbox-item-${queryKey}-${index}`; // ID único
+              const checkboxId = `checkbox-item-${queryKey}-${index}`;
 
               return (
                 <li key={index}>
@@ -143,8 +135,7 @@ export default function DropdownMultiSearch({
                       value={itemName}
                       checked={isChecked}
                       onChange={() => handleCheckboxChange(itemName)}
-                        className="w-4 h-4 text-blue-600 rounded-sm bg-gray-600 " 
-
+                      className="w-4 h-4 text-blue-600 rounded-sm bg-gray-600 "
                     />
                     <label
                       htmlFor={checkboxId}

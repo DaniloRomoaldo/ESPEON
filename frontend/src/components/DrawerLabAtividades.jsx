@@ -91,7 +91,6 @@ export default function DrawerLabAtividades({
     }
   };
 
-  // 4. Função genérica que o modal vai chamar
   const handleConfirmAction = () => {
     if (modalConfig.action === "stop") {
       handleStopLab();

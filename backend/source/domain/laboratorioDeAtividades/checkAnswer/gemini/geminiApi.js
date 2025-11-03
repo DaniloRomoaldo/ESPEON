@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 export async function callGeminiApi(validationContext, exerciseDescription) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); //gemini-1.5-flash-latest
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" }); 
 
     let systemContent = systemPrompt
       .replace("{exerciseDescription}", exerciseDescription)
@@ -35,9 +35,7 @@ export async function callGeminiApi(validationContext, exerciseDescription) {
           ],
         },
       ],
-      //   generationConfig: {
-      //     maxOutputTokens: 400,
-      //   },
+
     });
 
     const result = await chat.sendMessage(

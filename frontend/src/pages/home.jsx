@@ -4,119 +4,129 @@ import OutputTable from "../layouts/OutputTable";
 import HamburguerMenu from "../components/HamburguerMenu";
 import OutputError from "../layouts/OutputError";
 import OutputSucess from "../layouts/OutputSucess";
-import Cookies from 'js-cookie';
-import { useState , useEffect } from "react";
+import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
 import DrawerLabAtividades from "../components/DrawerLabAtividades";
 import DrawerMenu from "../components/DrawerMenu";
 
 // gambiarra para resolver o preline
 import { useNavigate } from "react-router-dom";
 
-
-
-
-
-
-
 export default function Home() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  useEffect(() => {
+    // Verifica se é o primeiro carregamento após F5
+    const reloaded = sessionStorage.getItem("reloaded-home");
 
-    useEffect(() => {
-        // Verifica se é o primeiro carregamento após F5
-        const reloaded = sessionStorage.getItem('reloaded-home');
-
-        if (!reloaded) {
-            sessionStorage.setItem('reloaded-home', 'true');
-            navigate('/home');
-        } else {
-            sessionStorage.removeItem('reloaded-home');
-        }
-    }, []);
-
-
-    const [dataTable, setDataTable] = useState({success: null, rows: [], fields: [] ,command: null, error: null });
-    const [elapsed, setElapsed] = useState(0);
-    const [running, setRunning] = useState(false);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-    // elevendo o estado do sourceCode (Lifting state up)
-    const [editorContent, setEditorContent] = useState('');
-
-    const labSessionId = Cookies.get('labSessionId');
-    
-    function startTimer (){
-        setElapsed(0)
-        setRunning(true)
+    if (!reloaded) {
+      sessionStorage.setItem("reloaded-home", "true");
+      navigate("/home");
+    } else {
+      sessionStorage.removeItem("reloaded-home");
     }
+  }, []);
 
-    function stopTimer(){
-        setRunning(false)
-    }
+  const [dataTable, setDataTable] = useState({
+    success: null,
+    rows: [],
+    fields: [],
+    command: null,
+    error: null,
+  });
+  const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    useEffect(() => {
-        if (!running) return;
+  // elevendo o estado do sourceCode (Lifting state up)
+  const [editorContent, setEditorContent] = useState("");
 
-        const starTime = Date.now();
-        const timerId = setInterval(() => {
-            setElapsed(Date.now() - starTime);
-        }, 100);
+  const labSessionId = Cookies.get("labSessionId");
 
-        return () => clearInterval(timerId);
-    }, [running])
+  function startTimer() {
+    setElapsed(0);
+    setRunning(true);
+  }
 
+  function stopTimer() {
+    setRunning(false);
+  }
 
-    return (
-        <div className="h-screen flex flex-col sm:grid sm:grid-cols-[20%_80%]">
-            {/* Coluna Esquerda (Treeview e Menu) */}
-            <div className="h-auto sm:h-screen flex flex-col ">
-                {/* Menu Superior */}
-                <div className="h-16 sm:h-[10%] flex items-center p-2 sm:p-0">
-                    <HamburguerMenu onOpen={() => setIsDrawerOpen(true)}/>
-                    <div className="basis-2/3 bg-[rgba(10,160,20,0.7)] rounded-lg min-h-[1.5rem] sm:min-h-[1rem] w-[40%] ml-2 sm:ml-[5%] flex justify-center items-center">
-                        <p className="text-cyan-50 whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(0.75rem,2vw,1rem)]">PostgreSQL</p>
-                    </div>
-                </div>
+  useEffect(() => {
+    if (!running) return;
 
-                {/* Treeview */}
-                <div className="bg-[rgba(23,21,13,0.4)] flex-grow border-l-4 border-b-4 border-t-4 border-[#08090b8f] overflow-y-auto">
-                    <Treeview />
-                </div>
-            </div>
+    const starTime = Date.now();
+    const timerId = setInterval(() => {
+      setElapsed(Date.now() - starTime);
+    }, 100);
 
-            {/* Coluna Direita (CodeEditor e OutputTable) */}
-            <div className="flex-grow flex flex-col sm:h-screen">
-                {/* CodeEditor */}
-                <div className="bg-[rgba(30,30,30,1)] flex-grow h-[50vh] sm:h-[60%] border-r-6 border-l-4 border-b-2 border-[#08090b] border-t-3 overflow-y-auto">
-                    <CodeEditor 
-                    setDataTable={setDataTable}
-                    onStartQuery={startTimer} // inicia o cronometro antes de enviar a requisição
-                    onEndQuery={stopTimer} // finaliza o cronometro quando recebe a resposta do WS
-                    onContentChange={setEditorContent} // altera o estado do conteúdodo editor
-                    />
-                </div>
+    return () => clearInterval(timerId);
+  }, [running]);
 
-                {/* OutputTable */}
-                <div className="bg-[rgba(23,21,13,0.4)] h-[40vh] sm:h-[40%] border-r-6 border-l-4 border-b-4 border-t-2 border-[#08090b] overflow-auto">
-                {running ? (
-                    <div className="flex justify-center items-center h-full text-gray-300 italic">
-                        Carregando { (elapsed/1000).toFixed(1) }s
-                    </div>
-                ): dataTable.success === false ? (
-                        <OutputError data={dataTable.error} />
-                    ) : dataTable.success === true && dataTable.command != 'SELECT' && dataTable.rows.length === 0 ? (
-                        <OutputSucess data={`${dataTable.command} command executed successfully!`} />
-                    ): (
-                        <OutputTable data={dataTable} />
-                    )}
-                </div>
-            </div>
-
-                {labSessionId ? (
-                    <DrawerLabAtividades isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} editorContent={editorContent} />
-                ) : (
-                    <DrawerMenu isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
-                )}
+  return (
+    <div className="h-screen flex flex-col sm:grid sm:grid-cols-[20%_80%]">
+      {/* Coluna Esquerda (Treeview e Menu) */}
+      <div className="h-auto sm:h-screen flex flex-col ">
+        {/* Menu Superior */}
+        <div className="h-16 sm:h-[10%] flex items-center p-2 sm:p-0">
+          <HamburguerMenu onOpen={() => setIsDrawerOpen(true)} />
+          <div className="basis-2/3 bg-[rgba(10,160,20,0.7)] rounded-lg min-h-[1.5rem] sm:min-h-[1rem] w-[40%] ml-2 sm:ml-[5%] flex justify-center items-center">
+            <p className="text-cyan-50 whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(0.75rem,2vw,1rem)]">
+              PostgreSQL
+            </p>
+          </div>
         </div>
-    );
+
+        {/* Treeview */}
+        <div className="bg-[rgba(23,21,13,0.4)] flex-grow border-l-4 border-b-4 border-t-4 border-[#08090b8f] overflow-y-auto">
+          <Treeview />
+        </div>
+      </div>
+
+      {/* Coluna Direita (CodeEditor e OutputTable) */}
+      <div className="flex-grow flex flex-col sm:h-screen">
+        {/* CodeEditor */}
+        <div className="bg-[rgba(30,30,30,1)] flex-grow h-[50vh] sm:h-[60%] border-r-6 border-l-4 border-b-2 border-[#08090b] border-t-3 overflow-y-auto">
+          <CodeEditor
+            setDataTable={setDataTable}
+            onStartQuery={startTimer} // inicia o cronometro antes de enviar a requisição
+            onEndQuery={stopTimer} // finaliza o cronometro quando recebe a resposta do WS
+            onContentChange={setEditorContent} // altera o estado do conteúdodo editor
+          />
+        </div>
+
+        {/* OutputTable */}
+        <div className="bg-[rgba(23,21,13,0.4)] h-[40vh] sm:h-[40%] border-r-6 border-l-4 border-b-4 border-t-2 border-[#08090b] overflow-auto">
+          {running ? (
+            <div className="flex justify-center items-center h-full text-gray-300 italic">
+              Carregando {(elapsed / 1000).toFixed(1)}s
+            </div>
+          ) : dataTable.success === false ? (
+            <OutputError data={dataTable.error} />
+          ) : dataTable.success === true &&
+            dataTable.command != "SELECT" &&
+            dataTable.rows.length === 0 ? (
+            <OutputSucess
+              data={`${dataTable.command} command executed successfully!`}
+            />
+          ) : (
+            <OutputTable data={dataTable} />
+          )}
+        </div>
+      </div>
+
+      {labSessionId ? (
+        <DrawerLabAtividades
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+          editorContent={editorContent}
+        />
+      ) : (
+        <DrawerMenu
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        />
+      )}
+    </div>
+  );
 }

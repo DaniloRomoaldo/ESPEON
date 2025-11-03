@@ -5,14 +5,12 @@ import * as repositoryLogRegister from "../logRegister/repository.js";
 
 const createRowFingerprint = (row) => {
   const sortedRow = {};
-  // pega as chaves do objeto e bota em ordem alfabética
   Object.keys(row)
     .sort()
     .forEach((key) => {
       sortedRow[key] = row[key];
     });
 
-  // Converte o objeto para uma string que é a impressão digital do resultado
   return JSON.stringify(sortedRow);
 };
 

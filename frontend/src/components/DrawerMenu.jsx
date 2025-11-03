@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 export default function DrawerMenu({ isOpen, onClose }) {
   const navigate = useNavigate();
 
-  // Função para fazer o logout do usuário
   const handleLogout = () => {
     Cookies.remove("auth_token");
     Cookies.remove("userId");
@@ -104,7 +103,6 @@ export default function DrawerMenu({ isOpen, onClose }) {
               onClick={onClose}
               className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
             >
-              
               <svg
                 className="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 aria-hidden="true"
@@ -118,7 +116,6 @@ export default function DrawerMenu({ isOpen, onClose }) {
                   clipRule="evenodd"
                 />
               </svg>
-              {/* --- ÍCONE TERMINA AQUI --- */}
               <span className="flex-1 ms-3 whitespace-nowrap">
                 Log das Atividades
               </span>

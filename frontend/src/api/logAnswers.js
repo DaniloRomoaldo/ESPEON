@@ -50,3 +50,18 @@ export async function getLogReportData(filters) {
     );
   }
 }
+
+export async function getUserAnswersLog(params) {
+  const body = {
+    list_name: params.list_name,
+    exercise_name: params.exercise_name,
+    user_email: params.user_email,
+  };
+
+  try {
+    const response = await api.post("/report/answers-log", body);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Erro ao buscar dados.");
+  }
+}

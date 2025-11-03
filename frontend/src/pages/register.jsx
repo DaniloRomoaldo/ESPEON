@@ -1,149 +1,161 @@
-import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../api/register';
-import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
+import { registerUser } from "../api/register";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 export default function Register() {
-    const navigate = useNavigate();
-    const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleBack = () => {
-        navigate('/login'); 
-    };
+  const handleBack = () => {
+    navigate("/login");
+  };
 
-    const{
-        register,
-        handleSubmit,
-        formState: {isSubmitting}
-    } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm();
 
+  const { mutateAsync: createUser } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      navigate("/login");
+    },
+    onError: (error) => {
+      setErrorMessage(error.message);
+    },
+  });
 
-    const {mutateAsync: createUser} = useMutation({
-        mutationFn: registerUser,
-        onSuccess: () => {
-            navigate('/login')
-        },
-        onError: (error) => {
-            setErrorMessage(error.message);
-        }
-    });
+  async function handleRegister(data) {
+    setErrorMessage(null);
 
-
-    async function handleRegister(data) {
-        setErrorMessage(null);
-
-        if (data.password !== data.confirm_password) {
-            setErrorMessage("Senhas não concidem")
-            return;
-        }
-
-        try{
-            await createUser({email: data.email, password: data.password})
-        } catch (err){
-            console.log(err)
-        }
-        
+    if (data.password !== data.confirm_password) {
+      setErrorMessage("Senhas não concidem");
+      return;
     }
 
+    try {
+      await createUser({ email: data.email, password: data.password });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-    return (
-        <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-4 sm:p-6 md:p-8">
-            {/* Título CEFET-MG */}
-            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">
-                CEFET - MG
-            </h1>
+  return (
+    <div className="h-screen flex flex-col items-center justify-center space-y-4 sm:space-y-8 p-4 sm:p-6 md:p-8">
+      {/* Título CEFET-MG */}
+      <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-center">
+        CEFET - MG
+      </h1>
 
-            {/* Container do Formulário */}
-            <div className="bg-[#202024] opacity-80 rounded-lg mb-4 sm:mb-10 h-auto min-h-[70vh] sm:min-h-[60vh] w-full sm:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40%] max-w-[500px] p-4 sm:p-6 md:p-8 flex flex-col overflow-y-auto">
-                {/* Título S.H.I.P. */}
-                <h1 className="text-white text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6">
-                    ESPEON
-                </h1>
+      {/* Container do Formulário */}
+      <div className="bg-[#202024] opacity-80 rounded-lg mb-4 sm:mb-10 h-auto min-h-[70vh] sm:min-h-[60vh] w-full sm:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40%] max-w-[500px] p-4 sm:p-6 md:p-8 flex flex-col overflow-y-auto">
+        {/* Título S.H.I.P. */}
+        <h1 className="text-white text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-4 sm:mb-6">
+          ESPEON
+        </h1>
 
-                {/* Formulário */}
-                <div className="w-full mx-auto flex-grow flex flex-col justify-between">
-                    <form onSubmit={handleSubmit(handleRegister)} className="flex-grow flex flex-col justify-between space-y-3 sm:space-y-6" action="#" method="POST">
-                        {/* Campos do Formulário */}
-                        <div>
-                            {/* Campo de Email */}
-                            <div>
-                                <label htmlFor="email" className="block text-xs sm:text-sm text-white opacity-30 font-extralight">
-                                    Email
-                                </label>
-                                <div className="mt-1 sm:mt-2">
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        autoComplete="email"
-                                        required
-                                        className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
-                                        {...register("email")}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Campo de Senha */}
-                            <div className="mt-4 sm:mt-6">
-                                <label htmlFor="password" className="block text-xs sm:text-sm text-white opacity-30 font-extralight">
-                                    Password
-                                </label>
-                                <div className="mt-1 sm:mt-2">
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        id="password"
-                                        autoComplete="password"
-                                        required
-                                        className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
-                                        {...register("password")}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Campo de Confirmação de Senha */}
-                            <div className="mt-4 sm:mt-6">
-                                <label htmlFor="confirm_password" className="block text-xs sm:text-sm text-white opacity-30 font-extralight">
-                                    Confirm Password
-                                </label>
-                                <div className="mt-1 sm:mt-2">
-                                    <input
-                                        type="password"
-                                        name="confirm_password"
-                                        id="password_confirm"
-                                        autoComplete="password"
-                                        required
-                                        className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
-                                        {...register("confirm_password")}
-                                    />
-                                </div>
-                            </div>
-                                {/* Adicionando o display de erro */}
-                                {errorMessage && (
-                                    <div className="flex items-center gap-2 text-red-500 mt-2">
-                                        <span>{errorMessage}</span>
-                                    </div>
-                                )}
-                            {/* Botão de Registro */}
-                            <div className="flex justify-between items-center mt-8">
-                                
-                                <button type="button" onClick={handleBack} className="text-gray-800 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
-                                    voltar
-                                </button>
-                                <button type="submit" className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center"
-                                    disabled={isSubmitting}
-                                >
-                                    Register
-                                 </button>
-
-                            </div>
-                        </div>
-
-                    </form>
+        {/* Formulário */}
+        <div className="w-full mx-auto flex-grow flex flex-col justify-between">
+          <form
+            onSubmit={handleSubmit(handleRegister)}
+            className="flex-grow flex flex-col justify-between space-y-3 sm:space-y-6"
+            action="#"
+            method="POST"
+          >
+            {/* Campos do Formulário */}
+            <div>
+              {/* Campo de Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-xs sm:text-sm text-white opacity-30 font-extralight"
+                >
+                  Email
+                </label>
+                <div className="mt-1 sm:mt-2">
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    autoComplete="email"
+                    required
+                    className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                    {...register("email")}
+                  />
                 </div>
+              </div>
+
+              {/* Campo de Senha */}
+              <div className="mt-4 sm:mt-6">
+                <label
+                  htmlFor="password"
+                  className="block text-xs sm:text-sm text-white opacity-30 font-extralight"
+                >
+                  Password
+                </label>
+                <div className="mt-1 sm:mt-2">
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    autoComplete="password"
+                    required
+                    className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                    {...register("password")}
+                  />
+                </div>
+              </div>
+
+              {/* Campo de Confirmação de Senha */}
+              <div className="mt-4 sm:mt-6">
+                <label
+                  htmlFor="confirm_password"
+                  className="block text-xs sm:text-sm text-white opacity-30 font-extralight"
+                >
+                  Confirm Password
+                </label>
+                <div className="mt-1 sm:mt-2">
+                  <input
+                    type="password"
+                    name="confirm_password"
+                    id="password_confirm"
+                    autoComplete="password"
+                    required
+                    className="block w-full bg-[rgba(217,217,217,0.1)] rounded-sm text-neutral-300 h-8 sm:h-10 px-2 sm:px-3"
+                    {...register("confirm_password")}
+                  />
+                </div>
+              </div>
+              {/* Adicionando o display de erro */}
+              {errorMessage && (
+                <div className="flex items-center gap-2 text-red-500 mt-2">
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+              {/* Botão de Registro */}
+              <div className="flex justify-between items-center mt-8">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="text-gray-800 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700"
+                >
+                  voltar
+                </button>
+                <button
+                  type="submit"
+                  className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-xs sm:text-sm px-4 py-2 text-center"
+                  disabled={isSubmitting}
+                >
+                  Register
+                </button>
+              </div>
             </div>
+          </form>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

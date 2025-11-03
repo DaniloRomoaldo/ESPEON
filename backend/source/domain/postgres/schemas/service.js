@@ -1,6 +1,5 @@
-import * as schemaRepository from "./repository.js"
-
+import * as schemaRepository from "./repository.js";
 
 export const getSchemas = async () => {
-    return schemaRepository.getSchemas();
-}
+  return schemaRepository.getSchemas();
+};

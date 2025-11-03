@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { deleteExercise } from "../api/exercises"
+import { deleteExercise } from "../../api/exercises"
 
 export default function DatatableExercisesRow({name, description, solution_query, created_at}){
 

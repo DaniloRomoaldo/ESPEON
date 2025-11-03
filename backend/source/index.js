@@ -23,8 +23,7 @@ import * as labAtividadesController from "./domain/laboratorioDeAtividades/lab/c
 import * as checkExerciseAnswer from "./domain/laboratorioDeAtividades/checkAnswer/controller.js";
 
 //--------------------imports do Registro dos logs de Atividades ------------
-import * as logRegisterController from "./domain/laboratorioDeAtividades/logRegister/controller.js"
-
+import * as logRegisterController from "./domain/laboratorioDeAtividades/logRegister/controller.js";
 
 //------------------- imports do postgres -----------------------------------
 import * as schemasController from "./domain/postgres/schemas/controller.js";
@@ -117,23 +116,44 @@ app.get("/exerciseList", authMiddleware, exercise_listController.findByName);
 
 app.delete("/exerciseList/:id", exercise_listController.destroyExerciseList);
 
-
 //--------------------------------- Rotas do módulo do laboratório de atividades --------------------------------------------
-app.post("/startLabDeAtividades", authMiddleware,labAtividadesController.startLab);
-app.post("/stopLabDeAtividades", authMiddleware, labAtividadesController.stopLab);
+app.post(
+  "/startLabDeAtividades",
+  authMiddleware,
+  labAtividadesController.startLab
+);
+app.post(
+  "/stopLabDeAtividades",
+  authMiddleware,
+  labAtividadesController.stopLab
+);
 // app.post("/checkExerciseAnswer", authMiddleware, checkExerciseAnswer.checkAnswer)
 app.post("/checkExerciseAnswer", checkExerciseAnswer.checkAnswer); // temporário para teste sem midleware
 
 //--------------------------------- Rotas do Log de Registros das Atividades ------------------------------------------------
 
-app.get("/getAllExListsRegistered", authMiddleware,logRegisterController.getExerciseLists);
-app.get("/getExercisesNamesInLog", authMiddleware,logRegisterController.getExercisesNames)
-app.get("/getUsersInLog", authMiddleware,logRegisterController.getUsersLog)
+app.get(
+  "/getAllExListsRegistered",
+  authMiddleware,
+  logRegisterController.getExerciseLists
+);
+app.get(
+  "/getExercisesNamesInLog",
+  authMiddleware,
+  logRegisterController.getExercisesNames
+);
+app.get("/getUsersInLog", authMiddleware, logRegisterController.getUsersLog);
 //app.get("/activityLogExList", authMiddleware,logRegisterController.getLogExListByDate);
-app.post("/report/activity-log", authMiddleware,logRegisterController.generateActivityReport);
-
-
-
+app.post(
+  "/report/activity-log",
+  authMiddleware,
+  logRegisterController.generateActivityReport
+);
+app.post(
+  "/report/answers-log",
+  authMiddleware,
+  logRegisterController.getUserAnswersByExercise
+);
 
 //--------------------------------- Rotas de uso do postgres ----------------------------------------------------------------
 
