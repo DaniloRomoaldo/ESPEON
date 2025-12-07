@@ -1,9 +1,19 @@
 import * as repositoryExercise from "./repository.js";
+import { criptografar } from "../util/criptoHandler.js";
 
 //GET todos
 export const findAll = async (query) => {
   const { name_list } = query;
-  return repositoryExercise.findAll(name_list);
+  const exercises = await repositoryExercise.findAll(name_list);
+
+  const exercisesWithEncryptedSolutions = exercises.map((exercise) => {
+    return {
+      ...exercise,
+      solution_query: criptografar(exercise.solution_query)
+    }
+  })
+
+  return exercisesWithEncryptedSolutions;
 };
 
 //GET por id

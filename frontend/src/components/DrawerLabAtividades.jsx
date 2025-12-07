@@ -17,6 +17,8 @@ export default function DrawerLabAtividades({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
+  const [isSolved, setIsSolved] = useState(false);
+
   const currentExercise = exercises[currentIndex];
 
   const [modalConfig, setModalConfig] = useState({
@@ -24,6 +26,11 @@ export default function DrawerLabAtividades({
     message: "",
     action: null,
   });
+
+  useEffect(() => {
+    setFeedback(null);
+    setIsSolved(false);
+  }, [currentIndex]);
 
   useEffect(() => {
     const labSessionId = Cookies.get("labSessionId");
@@ -39,10 +46,6 @@ export default function DrawerLabAtividades({
       }
     }
   }, [isOpen]);
-
-  useEffect(() => {
-    setFeedback(null);
-  }, [currentIndex]);
 
   const handleSubmitAnswer = async () => {
     if (!currentExercise || !editorContent.trim()) {
@@ -65,17 +68,46 @@ export default function DrawerLabAtividades({
       const result = await checkAnswer(body);
 
       setFeedback(result);
+
+      if (result.isCorrect) {
+        setIsSolved(true); 
+      }
     } catch (error) {
-      
+      console.error(error);
     } finally {
-      setIsSubmitting(false); // Desativa o loading
+      setIsSubmitting(false);
     }
   };
 
   const handleNextExercise = () => {
-    const nextIndex = (currentIndex + 1) % exercises.length;
-    setCurrentIndex(nextIndex);
-    localStorage.setItem("currentExerciseIndex", nextIndex.toString());
+    if (isSolved) {
+      const updatedExercises = exercises.filter(
+        (_, index) => index !== currentIndex
+      );
+
+      let newIndex = currentIndex;
+
+      if (newIndex >= updatedExercises.length) {
+        newIndex = 0;
+      }
+
+      setExercises(updatedExercises);
+      setCurrentIndex(newIndex);
+      setIsSolved(false);
+
+      setFeedback(null);
+
+      localStorage.setItem(
+        "currentLabExercises",
+        JSON.stringify(updatedExercises)
+      );
+      localStorage.setItem("currentExerciseIndex", newIndex.toString());
+    }
+    else {
+      const nextIndex = (currentIndex + 1) % exercises.length;
+      setCurrentIndex(nextIndex);
+      localStorage.setItem("currentExerciseIndex", nextIndex.toString());
+    }
   };
 
   const handleStopLab = async () => {
@@ -153,13 +185,23 @@ export default function DrawerLabAtividades({
           <span className="sr-only">Close menu</span>
         </button>
 
-        {labSessionId && currentExercise ? (
+        {labSessionId && exercises.length > 0 && currentExercise ? (
           <div>
             <h6 className="text-lg font-bold dark:text-white">
               {currentExercise.name}
             </h6>
             <p className="mb-6 mt-2 text-sm text-gray-500 dark:text-gray-400">
               {currentExercise.description}
+            </p>
+          </div>
+        ) : labSessionId && exercises.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-10 text-center">
+            <div className="text-5xl mb-4">🏆</div>
+            <h6 className="text-lg font-bold text-green-600 dark:text-green-400">
+              Parabéns!
+            </h6>
+            <p className="mb-6 mt-2 text-sm text-gray-500 dark:text-gray-400">
+              Você completou todos os exercícios desta lista com sucesso.
             </p>
           </div>
         ) : (
@@ -169,7 +211,7 @@ export default function DrawerLabAtividades({
           </p>
         )}
 
-        {labSessionId && (
+        {labSessionId && exercises.length > 0 && (
           <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
@@ -241,6 +283,25 @@ export default function DrawerLabAtividades({
             </button>
           </div>
         )}
+
+        {labSessionId && exercises.length === 0 && (
+          <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button
+              type="button"
+              onClick={() =>
+                setModalConfig({
+                  isOpen: true,
+                  action: "stop",
+                  message: "Deseja realmente sair e limpar o laboratório?",
+                })
+              }
+              className="w-full justify-center px-4 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+            >
+              Encerrar Laboratório
+            </button>
+          </div>
+        )}
+
         <FeedbackMessage feedback={feedback} />
       </div>
 

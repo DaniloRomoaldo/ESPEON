@@ -1,4 +1,5 @@
 import * as repositoryUsers from "./repository.js";
+import * as serviceUserPermission from "../user_permission/service.js"
 import bcrypt from "bcrypt";
 
 // função hash+salt para senha
@@ -38,9 +39,13 @@ export const create = async (body) => {
   const user = {
     email: body.email,
     password: hashPassword,
+    permission_name: 'user'
   };
 
   await repositoryUsers.create(user);
+
+  await serviceUserPermission.create(user);
+
 };
 
 // Atualizar usuário

@@ -96,7 +96,8 @@ app.post(
 //--------------------------------- Rotas do módulo de exercícios SQL -------------------------------------------------------
 const upload = multer({ storage: storage });
 
-app.get("/exercises", authMiddleware, exerciseController.findAllByList);
+//app.get("/exercises", authMiddleware, exerciseController.findAllByList);
+app.get("/exercises",  exerciseController.findAllByList);
 app.get("/exercise/:id", authMiddleware, exerciseController.findById);
 app.get("/exercise", authMiddleware, exerciseController.findByName);
 app.post("/exercise", authMiddleware, exerciseController.create);

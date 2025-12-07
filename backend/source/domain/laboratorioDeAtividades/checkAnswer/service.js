@@ -2,6 +2,8 @@ import { rawQuery } from "../../postgres/raw/repository.js";
 import { callGeminiApi } from "./gemini/geminiApi.js";
 import { getOne } from "../../system/users/repository.js";
 import * as repositoryLogRegister from "../logRegister/repository.js";
+import { descriptografar } from "../../system/util/criptoHandler.js";
+
 
 const createRowFingerprint = (row) => {
   const sortedRow = {};
@@ -24,14 +26,17 @@ export const analiseAnswer = async (body) => {
     userId,
   } = body;
 
+  const gabaritoOriginal = descriptografar(solutionQuery);
+
   const validationContext = {
     studentQuery: studentQuery,
-    solutionQuery: solutionQuery,
+    solutionQuery: gabaritoOriginal,
   };
+
 
   const [resultStudentQuery, resultSolutionQuery] = await Promise.all([
     rawQuery(studentQuery),
-    rawQuery(solutionQuery),
+    rawQuery(gabaritoOriginal),
   ]);
 
   const studentRows = resultStudentQuery.rows;
@@ -99,7 +104,7 @@ export const analiseAnswer = async (body) => {
   const logRegister = {
     list_name: listName,
     exercise_name: exerciseName,
-    exercise_solution: solutionQuery,
+    exercise_solution: gabaritoOriginal,
     user_response: studentQuery,
     response_evaluation: isCorrect,
     user_email: user.email,

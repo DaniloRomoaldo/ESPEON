@@ -63,7 +63,7 @@ export const getAggregatedLogReport = async (filters) => {
       "exercise_name",
       "user_email",
       databaseESPEON.raw(
-        "MAX(CASE WHEN response_evaluation = TRUE THEN 1 ELSE 0 END) AS acertos"
+        "SUM(CASE WHEN response_evaluation = TRUE THEN 1 ELSE 0 END) AS acertos"
       ),
       databaseESPEON.raw(
         "SUM(CASE WHEN response_evaluation = FALSE THEN 1 ELSE 0 END) AS erros"

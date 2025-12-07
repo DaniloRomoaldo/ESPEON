@@ -41,3 +41,4 @@ export const create = async (user_permission) => {
 export const destroy = async (id) => {
   await databaseESPEON("user_permission").where({ id: id }).del();
 };
+
