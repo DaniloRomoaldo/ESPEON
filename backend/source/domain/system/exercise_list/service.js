@@ -1,7 +1,7 @@
 import * as repositoryExercise_list from "./repository.js";
 import * as repositoryExercise from "../exercise/repository.js";
 import * as repositoryUsers from "../users/repository.js";
-import { databaseESPEON } from "../../../kenx/knexfile.js";
+import * as repositoryUserPermissions from "../user_permission/repository.js";
 import path from "path";
 import fs from "fs/promises";
 
@@ -84,7 +84,20 @@ export const updateExerciseList = async (body, query) => {};
 
 // DELETE
 
-export const deleteExerciseList = async (list_id) => {
+export const deleteExerciseList = async (list_id, user_id) => {
+  let user_permissions = [];
+  if (user_id) {
+    user_permissions = await repositoryUserPermissions.findPermissionByUserId(
+      user_id
+    );
+  }
+
+  const isAdmin = user_permissions.some((p) => p.permission_name === "admin");
+
+  if (!isAdmin) {
+    return "acesso negado!";
+  }
+
   const exercices_list = await repositoryExercise_list.findById(list_id);
   if (!exercices_list[0]) throw new Error("Lista de exercícos não encontrada");
   else

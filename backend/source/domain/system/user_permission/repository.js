@@ -42,3 +42,10 @@ export const destroy = async (id) => {
   await databaseESPEON("user_permission").where({ id: id }).del();
 };
 
+export const findPermissionByUserId = async (userId) => {
+  return databaseESPEON
+    .select("permissions.name as permission_name")
+    .from("user_permission")
+    .join("permissions", "permissions.id", "user_permission.permission_id")
+    .where("user_permission.user_id", "=", userId)
+}

@@ -44,7 +44,8 @@ export const createExercise_list = async (req, res) => {
 // DELETE deletar lista de exercícios
 export const destroyExerciseList = async (req, res) => {
   try {
-    await serviceExercise_list.deleteExerciseList(req.params.id);
+    const user_id = req.headers['user_id'];
+    await serviceExercise_list.deleteExerciseList(req.params.id, user_id);
     res.status(200).json({ message: "Lista de Exercĩcios excluida" });
   } catch (error) {
     // res.status(400).json({error: ErrorHandler.showError(error)})

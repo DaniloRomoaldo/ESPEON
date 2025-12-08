@@ -1,17 +1,30 @@
 import * as repositoryExercise from "./repository.js";
+import * as repositoryUserPermissions from "../user_permission/repository.js";
 import { criptografar } from "../util/criptoHandler.js";
 
 //GET todos
-export const findAll = async (query) => {
+export const findAll = async (query, user_id) => {
   const { name_list } = query;
+
+  let user_permissions = [];
+  if (user_id) {
+    user_permissions = await repositoryUserPermissions.findPermissionByUserId(
+      user_id
+    );
+  }
+
+  const isAdmin = user_permissions.some((p) => p.permission_name === "admin");
   const exercises = await repositoryExercise.findAll(name_list);
 
   const exercisesWithEncryptedSolutions = exercises.map((exercise) => {
+    if (isAdmin) {
+      return exercise;
+    }
     return {
       ...exercise,
-      solution_query: criptografar(exercise.solution_query)
-    }
-  })
+      solution_query: criptografar(exercise.solution_query),
+    };
+  });
 
   return exercisesWithEncryptedSolutions;
 };
@@ -66,8 +79,21 @@ export const update = async (body) => {
 };
 
 // DELETE exercicio
-export const deleteExercise = async (query) => {
+export const deleteExercise = async (query, user_id) => {
   const { name } = query;
+
+  let user_permissions = [];
+  if (user_id) {
+    user_permissions = await repositoryUserPermissions.findPermissionByUserId(
+      user_id
+    );
+  }
+
+  const isAdmin = user_permissions.some((p) => p.permission_name === "admin");
+
+  if (!isAdmin) {
+    return "acesso negado!";
+  }
 
   let old_exercise = await repositoryExercise.findByName(name);
   if (!old_exercise[0]) {

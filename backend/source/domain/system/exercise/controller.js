@@ -4,7 +4,9 @@ import { ErrorHandler } from "../util/ErrorHandler.js";
 // GET todos os exercícios
 export const findAllByList = async (req, res) => {
   try {
-    const exercise = await serviceExercise.findAll(req.query);
+    const user_id = req.headers['user_id'];
+
+    const exercise = await serviceExercise.findAll(req.query, user_id);
     res.status(200).json(exercise);
   } catch (error) {
     res.status(400).json({ error: ErrorHandler.showError(error) });
@@ -52,7 +54,8 @@ export const update = async (req, res) => {
 
 export const deleteExercise = async (req, res) => {
   try {
-    await serviceExercise.deleteExercise(req.query);
+     const user_id = req.headers['user_id'];
+    await serviceExercise.deleteExercise(req.query, user_id);
     res.status(200).json({ message: "Exercício removido" });
   } catch (error) {
     res.status(400).json({ error: ErrorHandler.showError(error) });

@@ -1,4 +1,5 @@
 import { api } from "../lib/axios";
+import Cookies from "js-cookie";
 
 export default async function registerExerciseList(body, query, file) {
   try {
@@ -35,8 +36,15 @@ export async function listAllExerciceLists() {
 }
 
 export async function deleteExerciseList(id) {
+  const userId = Cookies.get("userId");
+
   try {
-    const response = await api.delete(`exerciseList/${id}`);
+    
+    const response = await api.delete(`exerciseList/${id}`, {
+      headers:{
+        "user_id": userId || "",
+      },
+    });
 
     return response;
   } catch (error) {
